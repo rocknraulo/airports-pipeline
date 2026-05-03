@@ -1,1 +1,928 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LATAM Airport Pipeline · LAS IV 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0A0E1A;
+  --bg-surface: #111726;
+  --bg-elev: #1A2235;
+  --bg-glass: rgba(26, 34, 53, 0.65);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text-primary: #F4F6FB;
+  --text-secondary: #9BA3B7;
+  --text-muted: #6B7388;
+  --accent: #F5C56C;
+  --accent-bright: #FFD685;
+  --accent-deep: #C99744;
+  --teal: #5DD3C5;
+  --rose: #E27B7B;
+  --grad-1: linear-gradient(135deg, #F5C56C 0%, #C99744 100%);
+  --grad-2: linear-gradient(135deg, #5DD3C5 0%, #3FA89B 100%);
+  --grad-bg: radial-gradient(ellipse at top right, rgba(245, 197, 108, 0.08), transparent 50%),
+             radial-gradient(ellipse at bottom left, rgba(93, 211, 197, 0.06), transparent 50%),
+             #0A0E1A;
+  --shadow-soft: 0 4px 16px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --shadow-elev: 0 16px 48px rgba(0, 0, 0, 0.45);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  background: var(--grad-bg);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+}
+
+/* ============ HEADER ============ */
+.hero {
+  position: relative;
+  margin-bottom: 32px;
+  padding: 36px 40px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(245, 197, 108, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.hero-sub {
+  color: var(--text-secondary);
+  font-size: 15px;
+  max-width: 620px;
+}
+
+/* ============ STATS CARDS ============ */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.stat-card {
+  position: relative;
+  padding: 24px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s ease, border-color 0.3s ease;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--border-strong);
+}
+
+.stat-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.stat-value {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 36px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.stat-value.accent {
+  background: var(--grad-1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.stat-meta {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ============ FILTERS ============ */
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-left: 2px;
+}
+
+.filter-input,
+.filter-select {
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 197, 108, 0.12);
+}
+
+.filter-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239BA3B7' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+  cursor: pointer;
+}
+
+.filter-secondary {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.range-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.range-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.range-value {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.range-input {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--bg-surface);
+  border-radius: 2px;
+  border: 1px solid var(--border);
+  outline: none;
+}
+
+.range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(245, 197, 108, 0.4);
+}
+
+.range-input::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: var(--accent);
+  border-radius: 50%;
+  cursor: pointer;
+  border: none;
+}
+
+.actions-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 20px;
+}
+
+.results-count {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.results-count strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.btn-clear {
+  padding: 7px 14px;
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-clear:hover {
+  background: var(--bg-elev);
+  color: var(--text-primary);
+  border-color: var(--accent);
+}
+
+/* ============ TABLE ============ */
+.table-wrap {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.table-scroll {
+  overflow-x: auto;
+  max-height: 70vh;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--bg-elev);
+}
+
+th {
+  padding: 14px 14px;
+  text-align: left;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  border-bottom: 1px solid var(--border-strong);
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s;
+}
+
+th:hover {
+  color: var(--accent);
+}
+
+th.sort-asc::after,
+th.sort-desc::after {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-left: 6px;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  vertical-align: middle;
+}
+
+th.sort-asc::after {
+  border-bottom: 5px solid var(--accent);
+}
+
+th.sort-desc::after {
+  border-top: 5px solid var(--accent);
+}
+
+tbody tr {
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+  cursor: pointer;
+}
+
+tbody tr:hover {
+  background: rgba(245, 197, 108, 0.04);
+}
+
+tbody tr.expanded {
+  background: rgba(245, 197, 108, 0.06);
+}
+
+td {
+  padding: 14px 14px;
+  vertical-align: top;
+  color: var(--text-primary);
+}
+
+td.country {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+td.proyecto {
+  min-width: 280px;
+  max-width: 380px;
+}
+
+td.proyecto .name {
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+td.proyecto .airport {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+td.monto {
+  font-family: 'Geist Mono', monospace;
+  font-weight: 500;
+  white-space: nowrap;
+  text-align: right;
+}
+
+td.monto.no-confirm {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.tipo-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.tipo-Lead-grande { background: rgba(245, 197, 108, 0.16); color: var(--accent-bright); border: 1px solid rgba(245, 197, 108, 0.3); }
+.tipo-Lead-mediano { background: rgba(245, 197, 108, 0.08); color: var(--accent); border: 1px solid rgba(245, 197, 108, 0.18); }
+.tipo-Licitación-específica { background: rgba(93, 211, 197, 0.08); color: var(--teal); border: 1px solid rgba(93, 211, 197, 0.2); }
+.tipo-Plan-Maestro { background: rgba(155, 163, 183, 0.1); color: var(--text-secondary); border: 1px solid rgba(155, 163, 183, 0.18); }
+.tipo-Mantenimiento-operativo { background: rgba(155, 163, 183, 0.06); color: var(--text-muted); border: 1px solid rgba(155, 163, 183, 0.12); }
+.tipo-Meta-financiamiento { background: rgba(180, 130, 220, 0.1); color: #C896E5; border: 1px solid rgba(180, 130, 220, 0.2); }
+.tipo-Cancelado { background: rgba(226, 123, 123, 0.1); color: var(--rose); border: 1px solid rgba(226, 123, 123, 0.2); text-decoration: line-through; }
+
+.country-flag {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.flag-Panamá { background: #C8102E; }
+.flag-Brasil { background: #009C3B; }
+.flag-El-Salvador { background: #0047AB; }
+.flag-Guatemala { background: #4997D0; }
+.flag-Honduras { background: #00BCE4; }
+.flag-Costa-Rica { background: #002B7F; }
+.flag-Ecuador { background: #FFD700; }
+.flag-México { background: #006847; }
+.flag-Bolivia { background: #D52B1E; }
+.flag-Chile { background: #0033A0; }
+
+/* Expandable row */
+.detail-row {
+  display: none;
+  background: var(--bg-elev);
+}
+
+.detail-row.show {
+  display: table-row;
+}
+
+.detail-row td {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+}
+
+.detail-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.detail-key {
+  font-family: 'Geist Mono', monospace;
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.detail-val {
+  font-size: 13px;
+  color: var(--text-primary);
+}
+
+.detail-val.empty {
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* Empty state */
+.empty-state {
+  padding: 80px 24px;
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.empty-state h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+}
+
+/* Footer */
+.footer {
+  margin-top: 40px;
+  padding: 24px 0;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  letter-spacing: 0.05em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-elev);
+  border-radius: 5px;
+  border: 2px solid var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+@media (max-width: 1100px) {
+  .filters { grid-template-columns: 1fr 1fr; }
+  .filter-secondary { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 32px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="hero">
+    <div class="hero-eyebrow">Pipeline ejecutivo · LAS IV — Panamá · Julio 2026</div>
+    <h1>LATAM Airport <em>Pipeline</em></h1>
+    <p class="hero-sub">Inteligencia consolidada de proyectos aeroportuarios en 10 países LATAM. Datos verificados desde fuentes oficiales (DGAC, MOP, BID, BM, CAF, ANAC, CEPA, AAC).</p>
+  </header>
+
+  <section class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Pipeline Total</div>
+      <div class="stat-value accent" id="stat-total">—</div>
+      <div class="stat-meta" id="stat-total-meta">USD confirmado</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Proyectos</div>
+      <div class="stat-value" id="stat-count">—</div>
+      <div class="stat-meta" id="stat-count-meta">visibles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Leads Grandes</div>
+      <div class="stat-value" id="stat-leads">—</div>
+      <div class="stat-meta">≥ USD 100M o estratégicos</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Países</div>
+      <div class="stat-value" id="stat-countries">—</div>
+      <div class="stat-meta" id="stat-countries-meta">representados</div>
+    </div>
+  </section>
+
+  <section class="filters">
+    <div class="filter-group">
+      <label class="filter-label">País</label>
+      <select class="filter-select" id="f-country">
+        <option value="">Todos los países</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Tipo</label>
+      <select class="filter-select" id="f-tipo">
+        <option value="">Todos los tipos</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Nicho</label>
+      <select class="filter-select" id="f-nicho">
+        <option value="">Todos los nichos</option>
+      </select>
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Estado</label>
+      <select class="filter-select" id="f-estado">
+        <option value="">Todos los estados</option>
+      </select>
+    </div>
+  </section>
+
+  <section class="filter-secondary">
+    <div class="filter-group">
+      <label class="filter-label">Búsqueda libre (proyecto, aeropuerto, financiador)</label>
+      <input type="text" class="filter-input" id="f-search" placeholder="ej: Vinci, Tocumen, BHS, BID...">
+    </div>
+    <div class="filter-group">
+      <label class="filter-label">Financiador</label>
+      <select class="filter-select" id="f-fin">
+        <option value="">Todos</option>
+      </select>
+    </div>
+    <div class="filter-group range-group">
+      <div class="range-header">
+        <label class="filter-label">Monto mínimo</label>
+        <span class="range-value" id="range-display">USD 0</span>
+      </div>
+      <input type="range" class="range-input" id="f-monto" min="0" max="1140000000" step="1000000" value="0">
+    </div>
+  </section>
+
+  <div class="actions-bar">
+    <div class="results-count">
+      Mostrando <strong id="results-count">—</strong> de <strong id="results-total">—</strong> proyectos
+      <span id="results-amount" style="margin-left:12px; color: var(--text-muted);"></span>
+    </div>
+    <button class="btn-clear" onclick="clearFilters()">Limpiar filtros</button>
+  </div>
+
+  <div class="table-wrap">
+    <div class="table-scroll">
+      <table id="data-table">
+        <thead>
+          <tr>
+            <th data-sort="País">País</th>
+            <th data-sort="Proyecto">Proyecto / Aeropuerto</th>
+            <th data-sort="Monto USD" style="text-align:right;">Monto USD</th>
+            <th data-sort="Tipo">Tipo</th>
+            <th data-sort="Estado">Estado</th>
+            <th data-sort="Nicho principal">Nicho</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <footer class="footer">
+    LAS IV · Hotel Marriott Albrook · 15-16 Julio 2026 · Panama City — RDN Global
+  </footer>
+
+</div>
+
+<script>
+const DATA = [{"País":"Panamá","Aeropuerto":"Hinterland Tocumen","Código IATA":"MPTO","Proyecto":"Interconexiones viales Corredor Norte + accesos logísticos","Monto USD":135000000,"Monto confirmado":"Sí","Estado":"Estructuración","Tipo":"Lead grande","Financiador / Operador":"Estado / ENA","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Obra civil exterior","Nichos secundarios":"Logística, accesos viales","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Tocumen","Código IATA":"MPTO","Proyecto":"Rehabilitación pistas 03L-21R / 03R-21L","Monto USD":56900000,"Monto confirmado":"Sí","Estado":"En ejecución (70% fase 1)","Tipo":"Lead mediano","Financiador / Operador":"AITSA / Mota-Engil + MECO","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Pavimentos","Nichos secundarios":"Balizamiento, drenaje","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Eje Tocumen-Cruceros-Convenciones","Código IATA":null,"Proyecto":"Viaducto Cinta Costera III – Calzada Amador","Monto USD":44200000,"Monto confirmado":"Sí","Estado":"Ejecución avanzada","Tipo":"Lead mediano","Financiador / Operador":"Estado","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Obra civil exterior","Nichos secundarios":"Accesos viales","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Tocumen","Código IATA":"MPTO","Proyecto":"Renovación 21 puentes de abordaje T1","Monto USD":18000000,"Monto confirmado":"Sí","Estado":"Aprobado, pre-licitación","Tipo":"Lead mediano","Financiador / Operador":"AITSA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"PBBs","Nichos secundarios":"GPU, GSE","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Red nacional","Código IATA":null,"Proyecto":"Nuevo sistema ATC + simulador ATC","Monto USD":17000000,"Monto confirmado":"Sí","Estado":"Adjudicado, en refrendo","Tipo":"Lead mediano","Financiador / Operador":"AAC","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"ATC/CNS","Nichos secundarios":"Simulación, capacitación","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Red nacional","Código IATA":null,"Proyecto":"Convenio OACI PAN25/801 (SMS/AVSEC)","Monto USD":5490000,"Monto confirmado":"Sí","Estado":"Aprobado","Tipo":"Licitación específica","Financiador / Operador":"OACI / AAC","Plazo inicio":2025,"Plazo fin":2030,"Nicho principal":"Seguridad operacional","Nichos secundarios":"Certificación, AVSEC","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Rubén Cantú (Santiago de Veraguas)","Código IATA":"SYP","Proyecto":"Rehabilitación Aeródromo Rubén Cantú","Monto USD":1090000,"Monto confirmado":"Sí","Estado":"Finalizado","Tipo":"Licitación específica","Financiador / Operador":"Estado","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Regional","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Alonso Valderrama (Chitré)","Código IATA":"CTD","Proyecto":"Modernización Aeropuerto Alonso Valderrama","Monto USD":85000,"Monto confirmado":"Sí","Estado":"Finalizado","Tipo":"Licitación específica","Financiador / Operador":"Estado","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Modernización terminal","Nichos secundarios":"Regional","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"David, Río Hato, Colón","Código IATA":"DAV/RIH/ONX","Proyecto":"Concesión APP aeropuertos regionales","Monto USD":null,"Monto confirmado":"No","Estado":"Evaluación","Tipo":"Lead grande","Financiador / Operador":"Privado / APP","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"APP/Concesión","Nichos secundarios":"Operador aeroportuario","Fuente":"Informe Panamá"},{"País":"Panamá","Aeropuerto":"Isla Colón (Bocas del Toro)","Código IATA":"BOC","Proyecto":"Ampliación Aeropuerto Isla Colón","Monto USD":null,"Monto confirmado":"No","Estado":"Diagnóstico Plan Maestro","Tipo":"Plan Maestro","Financiador / Operador":"AAC / ATP","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Plan Maestro","Nichos secundarios":"Pista, terminal, turismo","Fuente":"Informe Panamá"},{"País":"Brasil","Aeropuerto":"Bloque Aena SP-MS-PA-MG (11 terminales)","Código IATA":"CGH+10","Proyecto":"Bloque Aena SP-MS-PA-MG (11 terminales)","Monto USD":1140000000,"Monto confirmado":"Sí","Estado":"En ejecución (29-79%)","Tipo":"Lead grande","Financiador / Operador":"Aena Brasil (BNDES/Santander)","Plazo inicio":2024,"Plazo fin":2028,"Nicho principal":"Modernización terminal","Nichos secundarios":"BHS, PBBs, multi-aeropuerto","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Congonhas","Código IATA":"CGH","Proyecto":"Mega reforma Congonhas","Monto USD":480000000,"Monto confirmado":"Sí","Estado":"29.6% avance","Tipo":"Lead grande","Financiador / Operador":"Aena Brasil","Plazo inicio":2024,"Plazo fin":2028,"Nicho principal":"Modernización terminal","Nichos secundarios":"BHS, PBBs","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Viracopos","Código IATA":"VCP","Proyecto":"Relicitación Viracopos","Monto USD":850000000,"Monto confirmado":"Sí","Estado":"Pre-edicto TCU","Tipo":"Lead grande","Financiador / Operador":"Por adjudicar","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"APP/Concesión","Nichos secundarios":"Operador aeroportuario","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Bloque Sur CCR (9 aeropuertos)","Código IATA":"CWB+8","Proyecto":"Bloque Sur CCR (9 aeropuertos)","Monto USD":570000000,"Monto confirmado":"Sí","Estado":"Ejecución avanzada","Tipo":"Lead grande","Financiador / Operador":"Grupo CCR","Plazo inicio":2023,"Plazo fin":2027,"Nicho principal":"Pavimentos","Nichos secundarios":"Tercera pista Curitiba, BHS","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Bloque Central CCR (6 aeropuertos)","Código IATA":"GYN+5","Proyecto":"Bloque Central CCR (6 aeropuertos)","Monto USD":360000000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead grande","Financiador / Operador":"Grupo CCR","Plazo inicio":2023,"Plazo fin":2027,"Nicho principal":"Modernización terminal","Nichos secundarios":"Multi-aeropuerto","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Bloque Norte II (Belém + Macapá)","Código IATA":"BEL/MCP","Proyecto":"Bloque Norte II (Belém + Macapá)","Monto USD":174900000,"Monto confirmado":"Sí","Estado":"Ejecución acelerada COP30","Tipo":"Lead grande","Financiador / Operador":"Novo Norte (Socicam/Dix, Banco Modal)","Plazo inicio":2024,"Plazo fin":2029,"Nicho principal":"Modernización terminal","Nichos secundarios":"Seguridad, biometría","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Belém","Código IATA":"BEL","Proyecto":"Anticipación COP30 Belém","Monto USD":94000000,"Monto confirmado":"Sí","Estado":"Certificado ANAC","Tipo":"Lead mediano","Financiador / Operador":"Novo Norte","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Modernización terminal","Nichos secundarios":"VIP, biometría","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"AmpliAR Nordeste (Feira de Santana, Iguatu, etc.)","Código IATA":null,"Proyecto":"AmpliAR Nordeste (10 regionales)","Monto USD":84840000,"Monto confirmado":"Sí","Estado":"Anuncio firme, BIM en curso","Tipo":"Lead mediano","Financiador / Operador":"Infraero / Novo PAC","Plazo inicio":2026,"Plazo fin":2027,"Nicho principal":"Modernización terminal","Nichos secundarios":"BIM, regionales","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Santos Dumont","Código IATA":"SDU","Proyecto":"Modernización Santos Dumont + EMAS","Monto USD":80000000,"Monto confirmado":"Sí","Estado":"OS adjudicadas","Tipo":"Lead mediano","Financiador / Operador":"Infraero / Novo PAC","Plazo inicio":2024,"Plazo fin":2027,"Nicho principal":"EMAS / Seguridad pista","Nichos secundarios":"Modernización terminal","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Natal (ASGA)","Código IATA":"NAT","Proyecto":"Relicitación Natal","Monto USD":61600000,"Monto confirmado":"Sí","Estado":"Ejecución continua","Tipo":"Lead mediano","Financiador / Operador":"Zurich Airport Brasil + BNDES","Plazo inicio":2024,"Plazo fin":2029,"Nicho principal":"Modernización terminal","Nichos secundarios":"CCTV, e-gates, FIDS, HVAC","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Natal (ASGA)","Código IATA":"NAT","Proyecto":"Financiamiento BNDES Natal (deuda paralela a concesión Zurich)","Monto USD":37000000,"Monto confirmado":"Sí","Estado":"Ejecución continua","Tipo":"Meta-financiamiento","Financiador / Operador":"BNDES","Plazo inicio":2024,"Plazo fin":2029,"Nicho principal":"Meta-financiamiento","Nichos secundarios":"Deuda BNDES asociada a concesión Zurich Airport Brasil","Fuente":"Informe Brasil"},{"País":"Brasil","Aeropuerto":"Manaus","Código IATA":"MAO","Proyecto":"Modernización Manaus + Sustainable Complex","Monto USD":null,"Monto confirmado":"No","Estado":"Ejecución sostenida","Tipo":"Lead grande","Financiador / Operador":"Vinci Airports","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"BHS","Nichos secundarios":"Subestación, tratamiento aguas","Fuente":"Informe Brasil"},{"País":"El Salvador","Aeropuerto":"Aeropuerto Internacional del Pacífico","Código IATA":"AIP","Proyecto":"Aeropuerto Internacional del Pacífico Fase 1 (greenfield)","Monto USD":386400000,"Monto confirmado":"Sí","Estado":"Terracería 75%","Tipo":"Lead grande","Financiador / Operador":"CAF + FIEM España + ICO España + CEPA","Plazo inicio":2025,"Plazo fin":2027,"Nicho principal":"Greenfield","Nichos secundarios":"Pista, terminal, ATC, SEI, combustible","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES (San Romero)","Código IATA":"SAL","Proyecto":"Plan de Modernización Etapa 2","Monto USD":245000000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead grande","Financiador / Operador":"BID + CEPA","Plazo inicio":2025,"Plazo fin":2029,"Nicho principal":"Modernización terminal","Nichos secundarios":"BHS, PBBs, biometría","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Terminal de Bandas de Equipaje (subcomponente)","Monto USD":47200000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead mediano","Financiador / Operador":"BID/CEPA","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"BHS","Nichos secundarios":"HBS","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"APP Terminal de Carga Aérea Fase 2","Monto USD":49000000,"Monto confirmado":"Sí","Estado":"Esperando trigger volumétrico","Tipo":"Lead mediano","Financiador / Operador":"Privado (Adimex/Alutech)","Plazo inicio":2024,"Plazo fin":2059,"Nicho principal":"APP/Concesión","Nichos secundarios":"Carga aérea","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIP","Código IATA":"AIP","Proyecto":"Cúpula envolvente terminal AIP","Monto USD":19500000,"Monto confirmado":"Sí","Estado":"Adjudicado, montaje 2026","Tipo":"Lead mediano","Financiador / Operador":"ICO España","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Estructura terminal","Nichos secundarios":"Cubierta especializada","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"Ilopango","Código IATA":"ILO","Proyecto":"Mejoramiento y Remodelación Ilopango","Monto USD":11300000,"Monto confirmado":"Sí","Estado":"40% avance","Tipo":"Lead mediano","Financiador / Operador":"CAF","Plazo inicio":2025,"Plazo fin":2027,"Nicho principal":"Modernización terminal","Nichos secundarios":"Pista, calles rodaje","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"Tonalá (Sonsonate)","Código IATA":null,"Proyecto":"Aeródromo de Tonalá","Monto USD":null,"Monto confirmado":"No","Estado":"Anuncio firme","Tipo":"Lead grande","Financiador / Operador":"CAF","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Greenfield regional","Nichos secundarios":"Aviación general","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Modernización COS (videovigilancia 400+ cámaras)","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación (cerrada eval)","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Seguridad / CCTV","Nichos secundarios":"VMS, almacenamiento","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Sistema filtrado planta agua potable","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Servicios / utilities","Nichos secundarios":"Tratamiento aguas","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Sistema carretillas de equipaje","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación abril-junio 2026","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"GSE","Nichos secundarios":"Equipamiento equipaje","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES + Ilopango","Código IATA":"SAL/ILO","Proyecto":"Sistemas de estacionamientos vehiculares","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación abril-junio 2026","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Estacionamientos","Nichos secundarios":"Sistemas pago, control acceso","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Ascensor de tracción","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación abril 2026","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Equipamiento terminal","Nichos secundarios":"Ascensores","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Sustitución cubiertas metálicas AIES III","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación cerrada","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Estructura terminal","Nichos secundarios":"Cubiertas, ACM","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Soporte sistemas de radar","Monto USD":null,"Monto confirmado":"No","Estado":"Contratación directa","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"ATC/CNS","Nichos secundarios":"Mantenimiento radar","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Concreto hidráulico plataformas 15-18","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Plataforma","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"Ilopango","Código IATA":"ILO","Proyecto":"Reparación calles rodaje Delta y Charlie","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Calles rodaje","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Láminas ACM en terminal","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Estructura terminal","Nichos secundarios":"Cerramientos","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Equipamiento Rayos X","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Seguridad / HBS","Nichos secundarios":"Inspección equipaje","Fuente":"Informe El Salvador"},{"País":"El Salvador","Aeropuerto":"AIES","Código IATA":"SAL","Proyecto":"Remodelación 4 casetas Bravo Sierra","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación","Tipo":"Licitación específica","Financiador / Operador":"CEPA","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Obra civil terminal","Nichos secundarios":"Casetas seguridad","Fuente":"Informe El Salvador"},{"País":"Guatemala","Aeropuerto":"AILA + AIMM + regionales","Código IATA":"GUA+otros","Proyecto":"Civil Aviation Recovery Program (Componente 2)","Monto USD":221800000,"Monto confirmado":"Sí","Estado":"En preparación (Appraisal abril 2026)","Tipo":"Lead grande","Financiador / Operador":"Banco Mundial (BIRF)","Plazo inicio":2026,"Plazo fin":2030,"Nicho principal":"Modernización terminal","Nichos secundarios":"PBBs, BHS, ATC, multi-aeropuerto","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"APP Modernización, Eficiencia y Seguridad AILA","Monto USD":158000000,"Monto confirmado":"Sí","Estado":"Estructuración pre-licitación","Tipo":"Lead grande","Financiador / Operador":"Privado vía ANADIE","Plazo inicio":2026,"Plazo fin":2044,"Nicho principal":"APP/Concesión","Nichos secundarios":"Operador aeroportuario","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"Convenio UNOPS (CANCELADO)","Monto USD":121000000,"Monto confirmado":"Sí","Estado":"Cancelado nov 2025","Tipo":"Cancelado","Financiador / Operador":"Estado vía CIV","Plazo inicio":null,"Plazo fin":null,"Nicho principal":"Cancelado","Nichos secundarios":"Demanda represada PBBs/BHS/ARFF","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"Mejoramiento Infraestructura SNIP 281256","Monto USD":18200000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead mediano","Financiador / Operador":"Estado (FSS/CIV)","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Modernización terminal","Nichos secundarios":"Obras civiles","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"Plan Conecta Fases 1 y 2","Monto USD":7700000,"Monto confirmado":"Sí","Estado":"En ejecución continua","Tipo":"Licitación específica","Financiador / Operador":"DGAC/CIV + Taiwán","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Modernización terminal","Nichos secundarios":"Cooperación internacional","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"Sistema A/C y Automatización (Grupo ECA)","Monto USD":5000000,"Monto confirmado":"Sí","Estado":"Contrato firmado feb 2025","Tipo":"Licitación específica","Financiador / Operador":"DGAC/CIV","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"HVAC / Automatización","Nichos secundarios":"Climatización terminal","Fuente":"Informe Guatemala"},{"País":"Guatemala","Aeropuerto":"AILA","Código IATA":"GUA","Proyecto":"Fase 3: Plan Maestro 2026-2036","Monto USD":null,"Monto confirmado":"No","Estado":"Anuncio firme","Tipo":"Plan Maestro","Financiador / Operador":"Banco Mundial (preinversión)","Plazo inicio":2026,"Plazo fin":2030,"Nicho principal":"Plan Maestro","Nichos secundarios":"Consultoría","Fuente":"Informe Guatemala"},{"País":"Honduras","Aeropuerto":"Ramón Villeda Morales (SAP)","Código IATA":"SAP","Proyecto":"Modernización Integral SAP (terminales, PBBs, sistemas)","Monto USD":49300000,"Monto confirmado":"Sí","Estado":"Ejecución avanzada","Tipo":"Lead mediano","Financiador / Operador":"SAN / Inversión Pública","Plazo inicio":2023,"Plazo fin":2025,"Nicho principal":"Modernización terminal","Nichos secundarios":"PBBs, BHS Amadeus","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Juan Manuel Gálvez (Roatán)","Código IATA":"RTB","Proyecto":"Transformación y Ampliación Terminal","Monto USD":25400000,"Monto confirmado":"Sí","Estado":"Ejecución avanzada (45%+)","Tipo":"Lead mediano","Financiador / Operador":"SAN","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Modernización terminal","Nichos secundarios":"PBBs, BHS, FBO, salón VIP","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Golosón (La Ceiba)","Código IATA":"LCE","Proyecto":"Transformación y Remodelación Terminal","Monto USD":2700000,"Monto confirmado":"Sí","Estado":"Ejecutado","Tipo":"Licitación específica","Financiador / Operador":"SAN + Turismo","Plazo inicio":2023,"Plazo fin":2024,"Nicho principal":"Modernización terminal","Nichos secundarios":"Regional","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Río Amarillo (Copán) + Tela","Código IATA":null,"Proyecto":"Rehabilitación y ampliación pistas regionales","Monto USD":1300000,"Monto confirmado":"Sí","Estado":"Diseño/factibilidad","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Pavimentos","Nichos secundarios":"OLS, líneas alta tensión","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Concesión FBO (LPN-034)","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación activa","Tipo":"Licitación específica","Financiador / Operador":"Privado","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"FBO","Nichos secundarios":"Aviación general","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Concesión MRO (LPN-035)","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación activa","Tipo":"Licitación específica","Financiador / Operador":"Privado","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"MRO","Nichos secundarios":"Mantenimiento aeronaves","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Reparación calle rodaje + plataforma carga (LPN-16)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Carga aérea","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Bombas achicadoras anti-inundación (LPN-24)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Mitigación hídrica","Nichos secundarios":"Drenaje, bombeo","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Estudio flora/fauna (CPN-21)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Estudios ambientales","Nichos secundarios":"Wildlife management","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Renta montacargas terminal carga (LPN-17)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"GSE","Nichos secundarios":"Carga aérea","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Mantenimiento generadores (LPN-08)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Mantenimiento operativo","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Energía / utilities","Nichos secundarios":"Backup eléctrico","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Roatán","Código IATA":"RTB","Proyecto":"Obras civiles Paquete 1 (LPN-10)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Obra civil terminal","Nichos secundarios":null,"Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Roatán","Código IATA":"RTB","Proyecto":"Cerramientos/estructuras metálicas Paquete 2 (LPN-14)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Estructura terminal","Nichos secundarios":"Anticorrosivos marinos","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Roatán","Código IATA":"RTB","Proyecto":"Recarpeteo pista + nueva calle C (LPN-12)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Pista, calles rodaje","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Roatán","Código IATA":"RTB","Proyecto":"Cableado estructurado + fibra óptica (LPN-15)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"TI / Comunicaciones","Nichos secundarios":"Fibra óptica","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Roatán","Código IATA":"RTB","Proyecto":"Sistema contra incendios y alarmas (LPN-13)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Seguridad operacional","Nichos secundarios":"FIRE/ALARM","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"La Ceiba","Código IATA":"LCE","Proyecto":"Recarpeteo asfáltico pista (LPN-28)","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación reciente","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Pavimentos","Nichos secundarios":null,"Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"La Ceiba","Código IATA":"LCE","Proyecto":"Aduana Multimodal de Carga","Monto USD":null,"Monto confirmado":"No","Estado":"50% avance","Tipo":"Licitación específica","Financiador / Operador":"Estado","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Carga aérea","Nichos secundarios":"Aduana, multimodal","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Toncontín","Código IATA":"TGU","Proyecto":"Plan modernización Toncontín","Monto USD":null,"Monto confirmado":"No","Estado":"Estancado en negociación legal con PIA","Tipo":"Lead grande","Financiador / Operador":"Estado","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"Operador aeroportuario","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Red SAN","Código IATA":null,"Proyecto":"Servicios seguridad privada red (LPU-01-2026)","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación activa","Tipo":"Licitación específica","Financiador / Operador":"SAN/EHISA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Seguridad / servicios","Nichos secundarios":"Vigilancia","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Red SAN","Código IATA":null,"Proyecto":"Servicios limpieza red (LPU-02-2026)","Monto USD":null,"Monto confirmado":"No","Estado":"Licitación activa","Tipo":"Licitación específica","Financiador / Operador":"SAN/EHISA","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Servicios","Nichos secundarios":"Limpieza","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP + Roatán","Código IATA":"SAP/RTB","Proyecto":"Concesión Duty Free SAP+RTB (LPN-27)","Monto USD":null,"Monto confirmado":"No","Estado":"Adjudicación","Tipo":"Licitación específica","Financiador / Operador":"Privado","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Retail / Duty Free","Nichos secundarios":"Comercial","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP + Roatán","Código IATA":"SAP/RTB","Proyecto":"Rompe flujos aeroportuarios (LPR-02)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Mobiliario terminal","Nichos secundarios":"Control flujos","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP + Roatán","Código IATA":"SAP/RTB","Proyecto":"Señalización vertical (LPN-07)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Señalización","Nichos secundarios":"Wayfinding","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Red SAN","Código IATA":null,"Proyecto":"Pólizas seguros all-risk (LPN-20, LPN-33)","Monto USD":null,"Monto confirmado":"No","Estado":"Adjudicado","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Seguros","Nichos secundarios":"Risk management","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"Red SAN","Código IATA":null,"Proyecto":"Clínica médica terminales (LPN-19)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Servicios médicos","Nichos secundarios":null,"Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Software gestión Amadeus (SAM)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Software gestión","Nichos secundarios":"Airport Management System","Fuente":"Informe Honduras"},{"País":"Honduras","Aeropuerto":"SAP","Código IATA":"SAP","Proyecto":"Certificación OACI vía AHAC","Monto USD":null,"Monto confirmado":"No","Estado":"Auditoría julio-agosto 2025","Tipo":"Licitación específica","Financiador / Operador":"SAN","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Certificación","Nichos secundarios":"OACI, AVSEC","Fuente":"Informe Honduras"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Plan Mejoramiento Integral Fases 1-3 (pistas, plataforma, calles rodaje)","Monto USD":100000000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead grande","Financiador / Operador":"50% Presup. Nac. + 40% ICT + 10% CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Plataforma, calles rodaje","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Reconstrucción pista emergencia (Tormenta Bonnie)","Monto USD":40000000,"Monto confirmado":"Sí","Estado":"Finalizada físicamente, en investigación judicial","Tipo":"Lead mediano","Financiador / Operador":"CNE / MECO","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Emergencia","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Juan Santamaría (SJO)","Código IATA":"SJO","Proyecto":"Reubicación Hangar MRO COOPESA","Monto USD":38900000,"Monto confirmado":"Sí","Estado":"18.49% ejecutado, trabado por disputas OACI","Tipo":"Lead mediano","Financiador / Operador":"CETAC","Plazo inicio":2014,"Plazo fin":2026,"Nicho principal":"MRO","Nichos secundarios":"Hangar industrial, supresión incendios","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Juan Santamaría (SJO)","Código IATA":"SJO","Proyecto":"Plataforma remota estacionamiento aeronaves","Monto USD":18900000,"Monto confirmado":"Sí","Estado":"$16.3M ejecutado (86%)","Tipo":"Lead mediano","Financiador / Operador":"CETAC","Plazo inicio":2023,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Plataforma remota","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Ampliación plataforma Categoría 4E (BPIP 002786)","Monto USD":8500000,"Monto confirmado":"Sí","Estado":"En ejecución plurianual","Tipo":"Licitación específica","Financiador / Operador":"Programa 333 CETAC","Plazo inicio":2023,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Plataforma 4E","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Juan Santamaría (SJO)","Código IATA":"SJO","Proyecto":"Renovación flota ARFF Oshkosh Striker SFFF","Monto USD":6600000,"Monto confirmado":"Sí","Estado":"Finalizado enero 2025","Tipo":"Licitación específica","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"ARFF","Nichos secundarios":"SFFF, espuma sin flúor","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Liberia + Tobías Bolaños","Código IATA":"LIR/SYQ","Proyecto":"Flota extintora ARFF (Prevención y Seguridad Industrial)","Monto USD":6070000,"Monto confirmado":"Sí","Estado":"80% pagado, en entrega","Tipo":"Licitación específica","Financiador / Operador":"DGAC/CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"ARFF","Nichos secundarios":"Vehículos extinción","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Red nacional","Código IATA":null,"Proyecto":"Sistema ADS-B nacional","Monto USD":850000,"Monto confirmado":"Sí","Estado":"Implementado, mantenimiento continuo","Tipo":"Mantenimiento operativo","Financiador / Operador":"CETAC","Plazo inicio":2020,"Plazo fin":2030,"Nicho principal":"ATC/CNS","Nichos secundarios":"ADS-B, posicionamiento","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Mantenimiento paliativo capa asfáltica","Monto USD":695000,"Monto confirmado":"Sí","Estado":"Ejecución continua","Tipo":"Mantenimiento operativo","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Pavimentos","Nichos secundarios":"Mantenimiento","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Buenos Aires + Tortuguero","Código IATA":null,"Proyecto":"Cerramiento perimetral mallas seguridad","Monto USD":470000,"Monto confirmado":"Sí","Estado":"Aprobado, en contratación","Tipo":"Licitación específica","Financiador / Operador":"Presupuesto Ord.","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"Seguridad perimetral","Nichos secundarios":"Mallas, cerramiento","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Drake","Código IATA":"DRK","Proyecto":"Expropiaciones franja pista","Monto USD":395000,"Monto confirmado":"Sí","Estado":"Capital depositado, espera sentencia","Tipo":"Licitación específica","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Expropiación","Nichos secundarios":"Franja pista","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Sedes DGAC + aeropuertos locales","Código IATA":null,"Proyecto":"Eco Firma + renovación TI","Monto USD":285000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Licitación específica","Financiador / Operador":"Presupuesto Ord.","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"TI / Comunicaciones","Nichos secundarios":"Firma digital","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Tobías Bolaños (SYQ)","Código IATA":"SYQ","Proyecto":"Sustitución elevador torre control","Monto USD":null,"Monto confirmado":"No","Estado":"En adjudicación","Tipo":"Licitación específica","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"Equipamiento ATC","Nichos secundarios":"Ascensores","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Greenfield Brunca (Osa)","Código IATA":null,"Proyecto":"Nuevo Aeropuerto Internacional Osa (Zona Sur)","Monto USD":null,"Monto confirmado":"No","Estado":"Preinversión, decisión H2 2027","Tipo":"Lead grande","Financiador / Operador":"Por definir","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Greenfield","Nichos secundarios":"Pista, terminal, ATC, todo","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Limón (AIL)","Código IATA":"LIO","Proyecto":"Estación bomberos SEI","Monto USD":null,"Monto confirmado":"No","Estado":"Preinversión","Tipo":"Licitación específica","Financiador / Operador":"Programa 333","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"ARFF","Nichos secundarios":"SEI","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"La Managua / Quepos","Código IATA":"XQP","Proyecto":"Nueva Terminal + PTAR","Monto USD":null,"Monto confirmado":"No","Estado":"Preinversión","Tipo":"Licitación específica","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Modernización terminal","Nichos secundarios":"Tratamiento aguas","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Drake","Código IATA":"DRK","Proyecto":"Sistema AWOS (meteorología)","Monto USD":null,"Monto confirmado":"No","Estado":"Aprobado alta prioridad","Tipo":"Licitación específica","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Meteorología","Nichos secundarios":"AWOS, sensores frangibles","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Tobías Bolaños (SYQ)","Código IATA":"SYQ","Proyecto":"Concesión privada hangares","Monto USD":null,"Monto confirmado":"No","Estado":"Diseño estratégico","Tipo":"Licitación específica","Financiador / Operador":"Privado","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"FBO / Hangares","Nichos secundarios":"Aviación general","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Red Internacional","Código IATA":null,"Proyecto":"Renovación flota maquinaria pista (barredoras, hidrovaciadores)","Monto USD":null,"Monto confirmado":"No","Estado":"Mantenimiento continuo","Tipo":"Mantenimiento operativo","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"GSE","Nichos secundarios":"Mantenimiento pista","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Estudios preinversión Terminal Logística Carga","Monto USD":null,"Monto confirmado":"No","Estado":"Preinversión","Tipo":"Plan Maestro","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Carga aérea","Nichos secundarios":"Estudios","Fuente":"Informe Costa Rica"},{"País":"Costa Rica","Aeropuerto":"Daniel Oduber (Liberia)","Código IATA":"LIR","Proyecto":"Actualización Plan Maestro 20-30 años","Monto USD":null,"Monto confirmado":"No","Estado":"Sesión 61-2025 CETAC, fase final","Tipo":"Plan Maestro","Financiador / Operador":"CETAC","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Plan Maestro","Nichos secundarios":"Consultoría","Fuente":"Informe Costa Rica"},{"País":"Ecuador","Aeropuerto":"Daular (Guayaquil)","Código IATA":null,"Proyecto":"Nuevo Aeropuerto Internacional Daular (greenfield)","Monto USD":521000000,"Monto confirmado":"Sí","Estado":"Pre-licitación, asesoría KOTRA","Tipo":"Lead grande","Financiador / Operador":"Fideicomiso AAG + privado por concesión","Plazo inicio":2025,"Plazo fin":2031,"Nicho principal":"Greenfield","Nichos secundarios":"Pista, terminal, ATC, smart airport","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Eloy Alfaro (Manta)","Código IATA":"MEC","Proyecto":"Delegación y Modernización Eloy Alfaro (APP 30 años)","Monto USD":253000000,"Monto confirmado":"Sí","Estado":"En licitación / estructuración APP","Tipo":"Lead grande","Financiador / Operador":"Korean Airport Corporation (KAC)","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"Smart airport, biometría, IA","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Mariscal Sucre (Quito)","Código IATA":"UIO","Proyecto":"Ampliación Terminal + Plataforma + Carga (Fases 2 y 3)","Monto USD":83700000,"Monto confirmado":"Sí","Estado":"En ejecución, aperturas progresivas","Tipo":"Lead mediano","Financiador / Operador":"Quiport (Corporación América)","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Modernización terminal","Nichos secundarios":"BHS, biometría e-gates","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Red nacional","Código IATA":null,"Proyecto":"Modernización Navegación Aérea Fase III (radares, ILS, DVOR/DME)","Monto USD":27700000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead mediano","Financiador / Operador":"Gobierno Nacional / DGAC","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"ATC/CNS","Nichos secundarios":"Radar, ILS, DVOR/DME","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Francisco de Orellana (El Coca)","Código IATA":"OCC","Proyecto":"Nuevo Aeropuerto Francisco de Orellana (greenfield amazónico)","Monto USD":14890000,"Monto confirmado":"Sí","Estado":"Licitación en progreso","Tipo":"Lead mediano","Financiador / Operador":"Gobierno / MTOP","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Greenfield","Nichos secundarios":"Bimodal aire-fluvial","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"General Rivadeneira (Esmeraldas)","Código IATA":"ESM","Proyecto":"Modernización Integral General Rivadeneira","Monto USD":13800000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead mediano","Financiador / Operador":"MTOP / DGAC","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"Modernización terminal","Nichos secundarios":"Regional","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Seymour (Baltra / Galápagos)","Código IATA":"GPS","Proyecto":"Repavimentación pista Galápagos (Fase 3 concesión)","Monto USD":10000000,"Monto confirmado":"Sí","Estado":"En ejecución","Tipo":"Lead mediano","Financiador / Operador":"Ecogal + BID Invest","Plazo inicio":2024,"Plazo fin":2026,"Nicho principal":"Pavimentos","Nichos secundarios":"ESG, sustentabilidad UNESCO","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Mariscal Lamar (Cuenca)","Código IATA":"CUE","Proyecto":"Obras civiles Sectores Alfa y Delta","Monto USD":1750000,"Monto confirmado":"Sí","Estado":"Licitación / ejecución","Tipo":"Licitación específica","Financiador / Operador":"Corpac","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Obra civil terminal","Nichos secundarios":"Regional","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Mariscal Lamar (Cuenca)","Código IATA":"CUE","Proyecto":"Actualización Plan Maestro","Monto USD":350000,"Monto confirmado":"Sí","Estado":"En ejecución (consultoría)","Tipo":"Plan Maestro","Financiador / Operador":"Corpac","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Plan Maestro","Nichos secundarios":"Consultoría","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Tarqui (Nuevo Cuenca)","Código IATA":null,"Proyecto":"Estudios meteorológicos preliminares (5 años) Nuevo Cuenca","Monto USD":20000,"Monto confirmado":"Sí","Estado":"En ejecución fase primaria","Tipo":"Plan Maestro","Financiador / Operador":"Corpac / EXP Canadá","Plazo inicio":2024,"Plazo fin":2029,"Nicho principal":"Preinversión","Nichos secundarios":"Meteorología, factibilidad","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Mariscal Sucre (Quito)","Código IATA":"UIO","Proyecto":"ZEDE-Quito + Zona Franca (Lote 1, 205 ha)","Monto USD":null,"Monto confirmado":"No","Estado":"En ejecución (30% en 2024)","Tipo":"Lead grande","Financiador / Operador":"EPMSA + privados","Plazo inicio":2024,"Plazo fin":2027,"Nicho principal":"Logística / Zona Franca","Nichos secundarios":"Cargo, retail, inmologística","Fuente":"Informe Ecuador"},{"País":"Ecuador","Aeropuerto":"Latacunga (Cotopaxi)","Código IATA":"LTX","Proyecto":"Concesión Cotopaxi (hub de carga)","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación / estructuración APP","Tipo":"Lead grande","Financiador / Operador":"Privado vía Secretaría Inversiones APP","Plazo inicio":2024,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"Hub carga, asesoría coreana","Fuente":"Informe Ecuador"},{"País":"México","Aeropuerto":"Tepic (Nayarit)","Código IATA":"TPQ","Proyecto":"Ampliación y Modernización (pista +800m, terminal 18.000m², TWR)","Monto USD":214100000,"Monto confirmado":"Sí","Estado":"Ejecución avanzada (Brownfield)","Tipo":"Lead grande","Financiador / Operador":"GATM + ASA (concesión 45 años)","Plazo inicio":2023,"Plazo fin":2027,"Nicho principal":"Modernización terminal","Nichos secundarios":"Pavimentos, BHS, ATC","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Tamuín (San Luis Potosí)","Código IATA":"TSL","Proyecto":"Modernización Integral (pista +900m, expropiación 107ha, SEI Cat C)","Monto USD":207300000,"Monto confirmado":"Sí","Estado":"Planeación final + expropiación","Tipo":"Lead grande","Financiador / Operador":"Federal + Estado SLP / ASA","Plazo inicio":2026,"Plazo fin":2027,"Nicho principal":"Pavimentos","Nichos secundarios":"SEI, drenaje freático","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Puerto Escondido (Oaxaca)","Código IATA":"PXM","Proyecto":"Modernización (150.000 m² pavimento, 11 plataformas, muro acústico Kalach)","Monto USD":67800000,"Monto confirmado":"Sí","Estado":"Ejecución activa","Tipo":"Lead mediano","Financiador / Operador":"GATM + ASA","Plazo inicio":2022,"Plazo fin":2026,"Nicho principal":"Pavimentos","Nichos secundarios":"Muro acústico, plataformas","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Guaymas (Sonora)","Código IATA":"GYM","Proyecto":"Rehabilitación (pista +500m, hub multimodal mar-aire)","Monto USD":25000000,"Monto confirmado":"Sí","Estado":"Ejecución activa","Tipo":"Lead mediano","Financiador / Operador":"Grupo Aeroportuario Marina (SEMAR) + Sonora","Plazo inicio":2025,"Plazo fin":2030,"Nicho principal":"Pavimentos","Nichos secundarios":"Multimodal","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Cancún","Código IATA":"CUN","Proyecto":"Estación de Combustibles SAF (planta de mezcla in-line)","Monto USD":237000,"Monto confirmado":"Sí","Estado":"13% avance físico/financiero","Tipo":"Licitación específica","Financiador / Operador":"ASA / Programa K005","Plazo inicio":2025,"Plazo fin":2030,"Nicho principal":"SAF / Combustibles","Nichos secundarios":"Biorrefinería escalable","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Bajío","Código IATA":"BJX","Proyecto":"Ampliación Estación Combustibles Bajío (tanques Jet A-1)","Monto USD":84500,"Monto confirmado":"Sí","Estado":"17% avance","Tipo":"Licitación específica","Financiador / Operador":"ASA / Programa K005","Plazo inicio":2025,"Plazo fin":2025,"Nicho principal":"Combustibles","Nichos secundarios":"Almacenamiento Jet A-1","Fuente":"Informe México"},{"País":"México","Aeropuerto":"Ciudad Obregón (Sonora)","Código IATA":"CEN","Proyecto":"Modernización + Base MRO Viva Aerobus","Monto USD":null,"Monto confirmado":"No","Estado":"Ejecución activa (terracería)","Tipo":"Lead grande","Financiador / Operador":"Grupo Aeroportuario Marina + Viva Aerobus","Plazo inicio":2025,"Plazo fin":2030,"Nicho principal":"MRO","Nichos secundarios":"Terminal, hangar Viva Aerobus","Fuente":"Informe México"},{"País":"Bolivia","Aeropuerto":"Viru Viru (Santa Cruz)","Código IATA":"VVI","Proyecto":"Hub Viru Viru – mega-concesión APP","Monto USD":null,"Monto confirmado":"No","Estado":"En evaluación de propuestas","Tipo":"Lead grande","Financiador / Operador":"APP / FDI (Aecon Canadá + Corp América eval)","Plazo inicio":2026,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"Hub, operador aeroportuario","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Tarija","Código IATA":"TJA","Proyecto":"Reconstrucción integral Oriel Lea Plaza (pista + terminal + torre + ARFF)","Monto USD":37200000,"Monto confirmado":"Sí","Estado":"Activo, planos aprobados 2026","Tipo":"Lead mediano","Financiador / Operador":"BID Préstamo 5601/OC-BO Etapa II","Plazo inicio":2024,"Plazo fin":2028,"Nicho principal":"Modernización integral","Nichos secundarios":"Pista, terminal, torre ATC, ARFF","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Uyuni","Código IATA":"UYU","Proyecto":"Renovación Joya Andina (etnoingeniería + eficiencia energética)","Monto USD":null,"Monto confirmado":"No","Estado":"Activo (saldo BID global)","Tipo":"Licitación específica","Financiador / Operador":"BID Préstamo 5601/OC-BO Etapa II","Plazo inicio":2024,"Plazo fin":2028,"Nicho principal":"Modernización terminal","Nichos secundarios":"ESG, etnoingeniería, HVAC sustentable","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Multi-aeropuerto Etapa II","Código IATA":null,"Proyecto":"Préstamo BID 5601/OC-BO Etapa II (meta-financiamiento Tarija + Uyuni)","Monto USD":60200000,"Monto confirmado":"Sí","Estado":"Activo","Tipo":"Meta-financiamiento","Financiador / Operador":"BID","Plazo inicio":2024,"Plazo fin":2028,"Nicho principal":"Meta-financiamiento","Nichos secundarios":"Cubre Tarija + Uyuni + otros (no sumar a montos individuales)","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Cobertura espacio aéreo nacional","Código IATA":null,"Proyecto":"Modernización CNS/ATM – migración REDDIG III","Monto USD":2290000,"Monto confirmado":"Sí","Estado":"Gasto recurrente firme","Tipo":"Licitación específica","Financiador / Operador":"DGAC, presupuesto institucional","Plazo inicio":2025,"Plazo fin":2027,"Nicho principal":"ATC/CNS","Nichos secundarios":"REDDIG III, anual recurrente","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Viru Viru + El Alto + Wilstermann","Código IATA":"VVI/LPB/CBB","Proyecto":"Remodelación baños terminales eje troncal","Monto USD":1300000,"Monto confirmado":"Sí","Estado":"Ejecutado","Tipo":"Licitación específica","Financiador / Operador":"TGN vía SICOES","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Obra civil terminal","Nichos secundarios":"Sanitarios","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Jorge Wilstermann (Cochabamba)","Código IATA":"CBB","Proyecto":"Recapado pista principal","Monto USD":1130000,"Monto confirmado":"Sí","Estado":"Ejecutado","Tipo":"Licitación específica","Financiador / Operador":"TGN vía SICOES","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"Pavimentos","Nichos secundarios":"Recapado","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Puerto Suárez (Mutún)","Código IATA":"PSZ","Proyecto":"Remodelación terminal","Monto USD":884000,"Monto confirmado":"Sí","Estado":"Ejecutado","Tipo":"Licitación específica","Financiador / Operador":"TGN vía SICOES","Plazo inicio":2024,"Plazo fin":2024,"Nicho principal":"Modernización terminal","Nichos secundarios":"Regional minero","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Potosí (Cap. Nicolás Rojas)","Código IATA":"POI","Proyecto":"Plan Maestro + EDTI (estudios pre-inversión)","Monto USD":319000,"Monto confirmado":"Sí","Estado":"Contratado abril 2026 (90 días)","Tipo":"Plan Maestro","Financiador / Operador":"Gobernación de Potosí","Plazo inicio":2026,"Plazo fin":2026,"Nicho principal":"Plan Maestro","Nichos secundarios":"Pre-inversión, altura crítica","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Alcantarí (Sucre)","Código IATA":"SRE","Proyecto":"Taxiway + mejoras terminal","Monto USD":134000,"Monto confirmado":"Sí","Estado":"Ejecutado","Tipo":"Licitación específica","Financiador / Operador":"Recursos propios NAABOL","Plazo inicio":2024,"Plazo fin":2025,"Nicho principal":"Obra civil terminal","Nichos secundarios":"Calles rodaje","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Potosí","Código IATA":"POI","Proyecto":"Ejecución material aeropuerto altura","Monto USD":null,"Monto confirmado":"No","Estado":"Plan maestro","Tipo":"Licitación específica","Financiador / Operador":"Sin financiamiento confirmado","Plazo inicio":2027,"Plazo fin":2030,"Nicho principal":"Greenfield / modernización","Nichos secundarios":"Altura crítica ~4000m","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"El Alto (La Paz)","Código IATA":"LPB","Proyecto":"Mantenimiento pista (umbral 10)","Monto USD":null,"Monto confirmado":"No","Estado":"En progreso","Tipo":"Mantenimiento operativo","Financiador / Operador":"NAABOL","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Pavimentos","Nichos secundarios":"Mantenimiento operativo","Fuente":"Informe Bolivia"},{"País":"Bolivia","Aeropuerto":"Guayaramerín","Código IATA":"GYA","Proyecto":"Limpieza pista forestal","Monto USD":null,"Monto confirmado":"No","Estado":"En progreso","Tipo":"Mantenimiento operativo","Financiador / Operador":"NAABOL","Plazo inicio":2025,"Plazo fin":2026,"Nicho principal":"Mantenimiento operativo","Nichos secundarios":"Wildlife / forestal","Fuente":"Informe Bolivia"},{"País":"Chile","Aeropuerto":"Desierto de Atacama (Copiapó) + Andrés Sabella (Antofagasta)","Código IATA":"CPO/ANF","Proyecto":"Red Aeroportuaria Norte","Monto USD":316000000,"Monto confirmado":"Sí","Estado":"Adjudicado (Decreto nov 2024)","Tipo":"Lead grande","Financiador / Operador":"Concesión privada — Sacyr-Cointer","Plazo inicio":2027,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"PBBs, terminales 48.000m², estacionamientos","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"El Tepual + Cañal Bajo + Mocopulli + Pichoy","Código IATA":"PMC/ZOS/MHC/ZAL","Proyecto":"Concesión Red Aeroportuaria Sur","Monto USD":273000000,"Monto confirmado":"Sí","Estado":"En pre-licitación","Tipo":"Lead grande","Financiador / Operador":"Concesión privada / DGC-MOP","Plazo inicio":2027,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"4 terminales, multi-aeropuerto","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"La Araucanía (Temuco)","Código IATA":"ZCO","Proyecto":"Segunda Concesión La Araucanía (terminal + pistas)","Monto USD":208500000,"Monto confirmado":"Sí","Estado":"En licitación","Tipo":"Lead grande","Financiador / Operador":"Mixto privado / MOP-DAP","Plazo inicio":2024,"Plazo fin":2027,"Nicho principal":"APP/Concesión","Nichos secundarios":"Terminal, pistas","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"Balmaceda + Carlos Ibáñez (Punta Arenas)","Código IATA":"BBA/PUQ","Proyecto":"Concesión Red Aeroportuaria Austral","Monto USD":162000000,"Monto confirmado":"Sí","Estado":"En construcción","Tipo":"Lead grande","Financiador / Operador":"Cointer Chile + Concesionaria del Sur","Plazo inicio":2021,"Plazo fin":2053,"Nicho principal":"APP/Concesión","Nichos secundarios":"PBBs, terminal sub-polar, carga","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"Carriel Sur (Concepción)","Código IATA":"CCP","Proyecto":"Mejoramiento y Concesión Carriel Sur","Monto USD":138000000,"Monto confirmado":"Sí","Estado":"Anuncio oficial firme","Tipo":"Lead grande","Financiador / Operador":"MOP / Concesiones","Plazo inicio":2025,"Plazo fin":2030,"Nicho principal":"APP/Concesión","Nichos secundarios":"Modernización terminal","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"La Florida (La Serena)","Código IATA":"LSC","Proyecto":"Tercera Concesión + obras DAP (terminal triplicado + pistas)","Monto USD":84200000,"Monto confirmado":"Sí","Estado":"En construcción","Tipo":"Lead mediano","Financiador / Operador":"Mixto privado / MOP-DAP","Plazo inicio":2024,"Plazo fin":2029,"Nicho principal":"APP/Concesión","Nichos secundarios":"Terminal triplicado, pistas","Fuente":"Informe Chile"},{"País":"Chile","Aeropuerto":"Arturo Merino Benítez (Santiago)","Código IATA":"SCL","Proyecto":"Diseño de ampliación (triplicar capacidad)","Monto USD":null,"Monto confirmado":"No","Estado":"En licitación (estudios)","Tipo":"Plan Maestro","Financiador / Operador":"MOP","Plazo inicio":2026,"Plazo fin":2038,"Nicho principal":"Plan Maestro","Nichos secundarios":"Pre-inversión, post-2038 obras","Fuente":"Informe Chile"}];
+
+let filtered = [...DATA];
+let sortKey = null;
+let sortDir = 1;
+
+const countries = [...new Set(DATA.map(p => p['País']))].sort();
+const tipos = [...new Set(DATA.map(p => p['Tipo']))].filter(Boolean).sort();
+const nichos = [...new Set(DATA.map(p => p['Nicho principal']))].filter(Boolean).sort();
+const estados = [...new Set(DATA.map(p => p['Estado']))].filter(Boolean).sort();
+const fins = [...new Set(DATA.map(p => p['Financiador / Operador']))].filter(Boolean).sort();
+
+function fillSelect(id, options) {
+  const sel = document.getElementById(id);
+  options.forEach(o => {
+    const opt = document.createElement('option');
+    opt.value = o;
+    opt.textContent = o;
+    sel.appendChild(opt);
+  });
+}
+
+fillSelect('f-country', countries);
+fillSelect('f-tipo', tipos);
+fillSelect('f-nicho', nichos);
+fillSelect('f-estado', estados);
+fillSelect('f-fin', fins);
+
+function fmtMoney(n) {
+  if (n === null || n === undefined || n === '') return null;
+  if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
+  if (n >= 1e6) return '$' + (n/1e6).toFixed(1) + 'M';
+  if (n >= 1e3) return '$' + (n/1e3).toFixed(0) + 'K';
+  return '$' + n.toLocaleString();
+}
+
+function fmtMoneyFull(n) {
+  if (n === null || n === undefined) return null;
+  return '$' + n.toLocaleString('en-US');
+}
+
+function applyFilters() {
+  const country = document.getElementById('f-country').value;
+  const tipo = document.getElementById('f-tipo').value;
+  const nicho = document.getElementById('f-nicho').value;
+  const estado = document.getElementById('f-estado').value;
+  const fin = document.getElementById('f-fin').value;
+  const search = document.getElementById('f-search').value.toLowerCase().trim();
+  const monto = parseInt(document.getElementById('f-monto').value);
+
+  filtered = DATA.filter(p => {
+    if (country && p['País'] !== country) return false;
+    if (tipo && p['Tipo'] !== tipo) return false;
+    if (nicho && p['Nicho principal'] !== nicho) return false;
+    if (estado && p['Estado'] !== estado) return false;
+    if (fin && p['Financiador / Operador'] !== fin) return false;
+    if (monto > 0) {
+      if (!p['Monto USD'] || p['Monto USD'] < monto) return false;
+    }
+    if (search) {
+      const haystack = [
+        p['Proyecto'], p['Aeropuerto'], p['Financiador / Operador'],
+        p['Nicho principal'], p['Nichos secundarios'], p['Código IATA']
+      ].filter(Boolean).join(' ').toLowerCase();
+      if (!haystack.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if (sortKey) sortFiltered();
+  render();
+  updateStats();
+}
+
+function sortFiltered() {
+  filtered.sort((a, b) => {
+    let va = a[sortKey], vb = b[sortKey];
+    if (va === null || va === undefined) va = sortKey === 'Monto USD' ? -1 : '';
+    if (vb === null || vb === undefined) vb = sortKey === 'Monto USD' ? -1 : '';
+    if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * sortDir;
+    return String(va).localeCompare(String(vb), 'es') * sortDir;
+  });
+}
+
+function render() {
+  const tbody = document.getElementById('tbody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><h3>Sin resultados</h3><p>Probá ajustar los filtros o limpiarlos</p></div></td></tr>';
+    return;
+  }
+
+  let html = '';
+  filtered.forEach((p, idx) => {
+    const flag = `<span class="country-flag flag-${(p['País']||'').replace(/ /g,'-')}"></span>`;
+    const proyecto = p['Proyecto'] || '—';
+    const aero = p['Aeropuerto'] || '—';
+    const iata = p['Código IATA'] ? ` · ${p['Código IATA']}` : '';
+    const monto = p['Monto USD'];
+    const montoStr = monto ? fmtMoney(monto) : 'Sin confirmar';
+    const montoCls = monto ? '' : 'no-confirm';
+    const tipo = p['Tipo'] || '—';
+    const tipoCls = tipo.replace(/ /g, '-').replace(/\//g, '-');
+    const estado = p['Estado'] || '—';
+    const nicho = p['Nicho principal'] || '—';
+
+    html += `
+      <tr onclick="toggleRow(${idx})" data-idx="${idx}">
+        <td class="country">${flag}${p['País']}</td>
+        <td class="proyecto">
+          <div class="name">${proyecto}</div>
+          <div class="airport">${aero}${iata}</div>
+        </td>
+        <td class="monto ${montoCls}">${montoStr}</td>
+        <td><span class="tipo-pill tipo-${tipoCls}">${tipo}</span></td>
+        <td>${estado}</td>
+        <td>${nicho}</td>
+      </tr>
+      <tr class="detail-row" id="detail-${idx}">
+        <td colspan="6">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <div class="detail-key">Aeropuerto</div>
+              <div class="detail-val">${p['Aeropuerto'] || '<span class="empty">—</span>'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Código IATA</div>
+              <div class="detail-val">${p['Código IATA'] || '<span class="empty">sin código</span>'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Monto exacto</div>
+              <div class="detail-val">${monto ? fmtMoneyFull(monto) : '<span class="empty">Sin confirmar</span>'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Monto confirmado</div>
+              <div class="detail-val">${p['Monto confirmado'] || '—'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Plazo</div>
+              <div class="detail-val">${p['Plazo inicio'] || '—'} → ${p['Plazo fin'] || '—'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Financiador / Operador</div>
+              <div class="detail-val">${p['Financiador / Operador'] || '<span class="empty">—</span>'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Nicho principal</div>
+              <div class="detail-val">${p['Nicho principal'] || '—'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Nichos secundarios</div>
+              <div class="detail-val">${p['Nichos secundarios'] || '<span class="empty">—</span>'}</div>
+            </div>
+            <div class="detail-item">
+              <div class="detail-key">Fuente</div>
+              <div class="detail-val">${p['Fuente'] || '—'}</div>
+            </div>
+          </div>
+        </td>
+      </tr>`;
+  });
+  tbody.innerHTML = html;
+}
+
+function toggleRow(idx) {
+  const detail = document.getElementById('detail-' + idx);
+  const row = document.querySelector('tr[data-idx="' + idx + '"]');
+  if (!detail) return;
+  detail.classList.toggle('show');
+  row.classList.toggle('expanded');
+}
+
+function updateStats() {
+  const total = filtered.reduce((sum, p) => sum + (p['Monto USD'] || 0), 0);
+  const leads = filtered.filter(p => p['Tipo'] === 'Lead grande').length;
+  const ctries = new Set(filtered.map(p => p['País'])).size;
+  const totalAll = DATA.length;
+
+  document.getElementById('stat-total').textContent = fmtMoney(total) || '—';
+  document.getElementById('stat-count').textContent = filtered.length;
+  document.getElementById('stat-count-meta').textContent = `de ${totalAll} totales`;
+  document.getElementById('stat-leads').textContent = leads;
+  document.getElementById('stat-countries').textContent = ctries;
+  document.getElementById('stat-countries-meta').textContent = `de 10 países`;
+
+  document.getElementById('results-count').textContent = filtered.length;
+  document.getElementById('results-total').textContent = totalAll;
+  document.getElementById('results-amount').textContent = total > 0 ? `· Total visible: ${fmtMoney(total)}` : '';
+}
+
+function clearFilters() {
+  ['f-country','f-tipo','f-nicho','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-search').value = '';
+  document.getElementById('f-monto').value = 0;
+  document.getElementById('range-display').textContent = 'USD 0';
+  applyFilters();
+}
+
+// Event listeners
+['f-country','f-tipo','f-nicho','f-estado','f-fin'].forEach(id => {
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+document.getElementById('f-search').addEventListener('input', applyFilters);
+document.getElementById('f-monto').addEventListener('input', e => {
+  document.getElementById('range-display').textContent = fmtMoney(parseInt(e.target.value)) || 'USD 0';
+  applyFilters();
+});
+
+// Sort handlers
+document.querySelectorAll('th[data-sort]').forEach(th => {
+  th.addEventListener('click', () => {
+    const key = th.dataset.sort;
+    if (sortKey === key) sortDir = -sortDir;
+    else { sortKey = key; sortDir = 1; }
+    document.querySelectorAll('th').forEach(t => t.classList.remove('sort-asc', 'sort-desc'));
+    th.classList.add(sortDir === 1 ? 'sort-asc' : 'sort-desc');
+    sortFiltered();
+    render();
+  });
+});
+
+// Init
+applyFilters();
+</script>
+</body>
+</html>
 
