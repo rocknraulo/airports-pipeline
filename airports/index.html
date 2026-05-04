@@ -4,6 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LATAM Airport Pipeline · LAS IV 2026</title>
+  <meta name="description" content="Pipeline de proyectos aeroportuarios en LATAM. 136 proyectos verificados desde fuentes oficiales en 10 países.">
+<meta property="og:title" content="LATAM Airport Pipeline · Raúl Dutra">
+<meta property="og:description" content="Inteligencia consolidada de proyectos aeroportuarios LATAM. 136 proyectos · USD 8.5B pipeline · 10 países.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rauldutra.com/airports">
+<meta name="twitter:card" content="summary_large_image">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -628,7 +634,7 @@ td.monto.no-confirm {
     <div class="stat-card">
       <div class="stat-label">Pipeline Total</div>
       <div class="stat-value accent" id="stat-total">—</div>
-      <div class="stat-meta" id="stat-total-meta">USD confirmado</div>
+      <div class="stat-meta" id="stat-total-meta">Total visible</div>
     </div>
     <div class="stat-card">
       <div class="stat-label">Proyectos</div>
@@ -828,8 +834,12 @@ function applyFilters() {
 function sortFiltered() {
   filtered.sort((a, b) => {
     let va = a[sortKey], vb = b[sortKey];
-    if (va === null || va === undefined) va = sortKey === 'Monto USD' ? -1 : '';
-    if (vb === null || vb === undefined) vb = sortKey === 'Monto USD' ? -1 : '';
+    // Nulos siempre al final, sin importar dirección del sort
+    const vaNull = (va === null || va === undefined);
+    const vbNull = (vb === null || vb === undefined);
+    if (vaNull && vbNull) return 0;
+    if (vaNull) return 1;
+    if (vbNull) return -1;
     if (typeof va === 'number' && typeof vb === 'number') return (va - vb) * sortDir;
     return String(va).localeCompare(String(vb), 'es') * sortDir;
   });
