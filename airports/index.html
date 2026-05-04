@@ -732,7 +732,31 @@ const DATA = [{"País":"Panamá","Aeropuerto":"Hinterland Tocumen","Código IATA
 let filtered = [...DATA];
 let sortKey = null;
 let sortDir = 1;
+// ============ MOTOR DE BÚSQUEDA BOOLEANA ============
+// Soporta: OR, AND, "frase exacta", -exclusión
+function matchBoolean(haystack, query) {
+  if (!query || !query.trim()) return true;
+  const q = query.trim();
 
+  if (/\s+OR\s+/i.test(q)) {
+    const terms = q.split(/\s+OR\s+/i);
+    return terms.some(t => matchBoolean(haystack, t));
+  }
+
+  if (/\s+AND\s+/i.test(q)) {
+    const terms = q.split(/\s+AND\s+/i);
+    return terms.every(t => matchBoolean(haystack, t));
+  }
+
+  const tokens = q.match(/-?"[^"]+"|-?\S+/g) || [];
+  return tokens.every(tok => {
+    let exclude = false;
+    if (tok.startsWith('-')) { exclude = true; tok = tok.slice(1); }
+    if (tok.startsWith('"') && tok.endsWith('"')) tok = tok.slice(1, -1);
+    const found = haystack.includes(tok.toLowerCase());
+    return exclude ? !found : found;
+  });
+}
 const countries = [...new Set(DATA.map(p => p['País']))].sort();
 const tipos = [...new Set(DATA.map(p => p['Tipo']))].filter(Boolean).sort();
 const nichos = [...new Set(DATA.map(p => p['Nicho principal']))].filter(Boolean).sort();
@@ -789,9 +813,9 @@ function applyFilters() {
     if (search) {
       const haystack = [
         p['Proyecto'], p['Aeropuerto'], p['Financiador / Operador'],
-        p['Nicho principal'], p['Nichos secundarios'], p['Código IATA']
+        p['Nicho principal'], p['Nichos secundarios'], p['Código IATA'], p['Tipo'], p['Estado']
       ].filter(Boolean).join(' ').toLowerCase();
-      if (!haystack.includes(search)) return false;
+      if (!matchBoolean(haystack, search)) return false;
     }
     return true;
   });
