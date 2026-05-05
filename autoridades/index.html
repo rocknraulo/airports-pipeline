@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autoridades LATAM · Raúl Dutra</title>
+<meta name="description" content="Autoridades clave de gobierno y aeronáutica civil en LATAM. Ficha rápida por país: presidentes, ministros, directores DGAC/ANAC.">
+<meta property="og:title" content="Autoridades LATAM · Raúl Dutra">
+<meta property="og:description" content="Ficha rápida de autoridades de gobierno y aeronáutica en países LATAM.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rauldutra.com/autoridades">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><circle cx=%2250%22 cy=%2250%22 r=%2245%22 fill=%22%230A0E1A%22/><text y=%22.9em%22 x=%22.5em%22 font-size=%2260%22 font-family=%22serif%22 font-style=%22italic%22 fill=%22%23F5C56C%22 text-anchor=%22middle%22 dominant-baseline=%22middle%22 transform=%22translate(50 35)%22>R</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #0A0E1A;
+  --bg-surface: #111726;
+  --bg-elev: #1A2235;
+  --bg-glass: rgba(26, 34, 53, 0.65);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --text-primary: #F4F6FB;
+  --text-secondary: #9BA3B7;
+  --text-muted: #6B7388;
+  --accent: #F5C56C;
+  --accent-bright: #FFD685;
+  --teal: #5DD3C5;
+  --rose: #E27B7B;
+  --grad-1: linear-gradient(135deg, #F5C56C 0%, #C99744 100%);
+  --grad-bg: radial-gradient(ellipse at top right, rgba(245, 197, 108, 0.08), transparent 50%),
+             radial-gradient(ellipse at bottom left, rgba(93, 211, 197, 0.06), transparent 50%),
+             #0A0E1A;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  background: var(--grad-bg);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  font-family: 'Geist', -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 16px 80px;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 18px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s, transform 0.2s;
+}
+
+.back-link:hover {
+  color: var(--accent);
+  transform: translateX(-3px);
+}
+
+/* HERO */
+.hero {
+  margin-bottom: 28px;
+  padding: 28px 24px;
+  background: var(--bg-glass);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(ellipse, rgba(245, 197, 108, 0.12) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.hero h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.hero-sub {
+  color: var(--text-secondary);
+  font-size: 14px;
+  max-width: 580px;
+}
+
+@media (min-width: 768px) {
+  .app { padding: 32px 24px 80px; }
+  .hero { padding: 36px 40px; }
+  .hero h1 { font-size: 40px; }
+}
+
+/* GRID DE PAÍSES */
+.country-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 600px) {
+  .country-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .country-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.country-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+  font-family: inherit;
+  color: inherit;
+  width: 100%;
+}
+
+.country-card:hover {
+  border-color: var(--accent);
+  background: var(--bg-elev);
+  transform: translateY(-2px);
+}
+
+.country-card-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.country-flag {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.flag-Panamá { background: #C8102E; }
+.flag-Brasil { background: #009C3B; }
+.flag-Chile { background: #0033A0; }
+.flag-Ecuador { background: #FFD700; }
+.flag-El-Salvador { background: #0047AB; }
+
+.country-card-name {
+  font-family: 'Fraunces', serif;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.country-card-meta {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+.country-card-arrow {
+  color: var(--accent);
+  font-size: 18px;
+  opacity: 0.5;
+  transition: all 0.2s;
+}
+
+.country-card:hover .country-card-arrow {
+  opacity: 1;
+  transform: translateX(4px);
+}
+
+/* DRAWER */
+.drawer-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 14, 26, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 100;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.drawer-bg.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 540px;
+  background: var(--bg-primary);
+  border-left: 1px solid var(--border-strong);
+  z-index: 101;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  position: sticky;
+  top: 0;
+  padding: 20px 24px;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 2;
+}
+
+.drawer-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-title h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.drawer-close {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+}
+
+.drawer-close:hover {
+  background: var(--bg-elev);
+  color: var(--text-primary);
+}
+
+.drawer-body {
+  padding: 8px 24px 32px;
+}
+
+.section {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.section-label {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 14px;
+}
+
+.person {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 14px;
+}
+
+.person:last-child {
+  margin-bottom: 0;
+}
+
+.person-role {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.person-name {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  letter-spacing: -0.005em;
+}
+
+.person-name.empty {
+  color: var(--text-muted);
+  font-style: italic;
+  font-weight: 400;
+}
+
+.person-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.entity-block {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+
+.entity-block:last-child {
+  margin-bottom: 0;
+}
+
+.entity-name {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 12px;
+  color: var(--accent-bright);
+}
+
+.entity-name-sub {
+  font-family: 'Geist Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-left: 6px;
+  font-weight: 400;
+}
+
+.disclaimer {
+  margin-top: 24px;
+  padding: 14px 16px;
+  background: rgba(245, 197, 108, 0.06);
+  border: 1px solid rgba(245, 197, 108, 0.18);
+  border-radius: 10px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.disclaimer strong {
+  color: var(--accent);
+}
+
+/* GATE */
+#gate { font-family: 'Geist', sans-serif; }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <a href="/" class="back-link">
+    <span class="arrow">←</span>
+    <span>rauldutra.com</span>
+  </a>
+
+  <header class="hero">
+    <div class="hero-eyebrow">Autoridades LATAM · Ficha rápida</div>
+    <h1>Mapa de <em>autoridades</em></h1>
+    <p class="hero-sub">Personas clave de gobierno y aeronáutica civil en países LATAM. Tocá un país para ver presidentes, ministros y entes aeronáuticos.</p>
+  </header>
+
+  <div class="country-grid" id="country-grid">
+    <!-- Cards generadas por JS -->
+  </div>
+
+</div>
+
+<div class="drawer-bg" id="drawer-bg" onclick="closeDrawer()"></div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <div class="drawer-title">
+      <span class="country-flag" id="drawer-flag"></span>
+      <h2 id="drawer-name">—</h2>
+    </div>
+    <button class="drawer-close" onclick="closeDrawer()">✕</button>
+  </div>
+  <div class="drawer-body" id="drawer-body">
+    <!-- Contenido inyectado por JS -->
+  </div>
+</div>
+
+<!-- PASSWORD GATE -->
+<div id="gate" style="position:fixed;inset:0;background:#0A0E1A;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;">
+  <div style="font-family:'Fraunces',serif;font-size:24px;color:#F5C56C;letter-spacing:-0.01em;">Raúl Dutra</div>
+  <div style="font-size:13px;color:#9BA3B7;letter-spacing:0.05em;">Acceso privado</div>
+  <input id="gate-input" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" style="background:rgba(245,197,108,0.06);border:1px solid rgba(245,197,108,0.3);border-radius:10px;padding:14px 20px;font-family:'Geist Mono',monospace;font-size:18px;color:#FFD685;text-align:center;width:160px;letter-spacing:0.3em;outline:none;">
+  <div id="gate-error" style="font-size:12px;color:#E07A7A;height:14px;opacity:0;transition:opacity 0.2s;">Contraseña incorrecta</div>
+</div>
+
+<script>
+// ============ DATA STRUCTURE ============
+// Esta es la estructura que después llenamos con Gemini.
+// Por ahora vacía, con placeholders.
+const AUTORIDADES = {
+  "Panamá": {
+    proximaEleccion: "Mayo 2029",
+    ultimaActualizacion: null,
+    gobierno: {
+      presidente: { nombre: null, desde: null },
+      vicepresidente: { nombre: null, desde: null },
+      ministroTransporte: { nombre: null, cargo: "Ministro de Obras Públicas", desde: null },
+      viceministroTransporte: { nombre: null, cargo: "Viceministro de Obras Públicas", desde: null }
+    },
+    enteAeronautico: {
+      nombre: "AAC",
+      nombreCompleto: "Autoridad Aeronáutica Civil",
+      directorGeneral: { nombre: null, desde: null },
+      subdirector: { nombre: null, desde: null }
+    },
+    operadorEstatal: {
+      nombre: "AITSA",
+      nombreCompleto: "Aeropuerto Internacional Tocumen S.A.",
+      presidente: { nombre: null, desde: null },
+      directorComercial: { nombre: null, desde: null },
+      directorInfraestructura: { nombre: null, desde: null }
+    }
+  },
+  "Brasil": {
+    proximaEleccion: "Octubre 2026",
+    ultimaActualizacion: null,
+    gobierno: {
+      presidente: { nombre: null, desde: null },
+      vicepresidente: { nombre: null, desde: null },
+      ministroTransporte: { nombre: null, cargo: "Ministro de Puertos y Aeropuertos", desde: null },
+      viceministroTransporte: { nombre: null, cargo: "Secretario Ejecutivo", desde: null }
+    },
+    enteAeronautico: {
+      nombre: "ANAC",
+      nombreCompleto: "Agência Nacional de Aviação Civil",
+      directorGeneral: { nombre: null, desde: null },
+      subdirector: { nombre: null, desde: null }
+    },
+    operadorEstatal: {
+      nombre: "Infraero",
+      nombreCompleto: "Empresa Brasileira de Infraestrutura Aeroportuária",
+      presidente: { nombre: null, desde: null },
+      directorComercial: { nombre: null, desde: null },
+      directorInfraestructura: { nombre: null, desde: null }
+    }
+  },
+  "Chile": {
+    proximaEleccion: "Noviembre 2025",
+    ultimaActualizacion: null,
+    gobierno: {
+      presidente: { nombre: null, desde: null },
+      vicepresidente: { nombre: null, desde: null, cargo: "(Chile no tiene vicepresidente)" },
+      ministroTransporte: { nombre: null, cargo: "Ministro de Obras Públicas", desde: null },
+      viceministroTransporte: { nombre: null, cargo: "Director General de Concesiones (DGC)", desde: null }
+    },
+    enteAeronautico: {
+      nombre: "DGAC Chile",
+      nombreCompleto: "Dirección General de Aeronáutica Civil",
+      directorGeneral: { nombre: null, desde: null },
+      subdirector: { nombre: null, desde: null }
+    },
+    operadorEstatal: {
+      nombre: "MOP - Concesiones",
+      nombreCompleto: "Coordinación de Concesiones MOP",
+      presidente: { nombre: null, desde: null, cargo: "Coordinador" },
+      directorComercial: { nombre: null, desde: null },
+      directorInfraestructura: { nombre: null, desde: null }
+    }
+  },
+  "Ecuador": {
+    proximaEleccion: "Febrero 2029",
+    ultimaActualizacion: null,
+    gobierno: {
+      presidente: { nombre: null, desde: null },
+      vicepresidente: { nombre: null, desde: null },
+      ministroTransporte: { nombre: null, cargo: "Ministro de Transporte y Obras Públicas (MTOP)", desde: null },
+      viceministroTransporte: { nombre: null, cargo: "Viceministro de Infraestructura del Transporte", desde: null }
+    },
+    enteAeronautico: {
+      nombre: "DGAC Ecuador",
+      nombreCompleto: "Dirección General de Aviación Civil",
+      directorGeneral: { nombre: null, desde: null },
+      subdirector: { nombre: null, desde: null }
+    },
+    operadorEstatal: {
+      nombre: "Corpac",
+      nombreCompleto: "Corporación Aeroportuaria del Ecuador",
+      presidente: { nombre: null, desde: null },
+      directorComercial: { nombre: null, desde: null },
+      directorInfraestructura: { nombre: null, desde: null }
+    }
+  },
+  "El Salvador": {
+    proximaEleccion: "Febrero 2029",
+    ultimaActualizacion: null,
+    gobierno: {
+      presidente: { nombre: null, desde: null },
+      vicepresidente: { nombre: null, desde: null },
+      ministroTransporte: { nombre: null, cargo: "Ministro de Obras Públicas y Transporte (MOPT)", desde: null },
+      viceministroTransporte: { nombre: null, cargo: "Viceministro de Transporte", desde: null }
+    },
+    enteAeronautico: {
+      nombre: "AAC El Salvador",
+      nombreCompleto: "Autoridad de Aviación Civil",
+      directorGeneral: { nombre: null, desde: null },
+      subdirector: { nombre: null, desde: null }
+    },
+    operadorEstatal: {
+      nombre: "CEPA",
+      nombreCompleto: "Comisión Ejecutiva Portuaria Autónoma",
+      presidente: { nombre: null, desde: null },
+      directorComercial: { nombre: null, desde: null },
+      directorInfraestructura: { nombre: null, desde: null }
+    }
+  }
+};
+
+// ============ RENDER GRID ============
+function renderGrid() {
+  const grid = document.getElementById('country-grid');
+  let html = '';
+  Object.keys(AUTORIDADES).forEach(country => {
+    const data = AUTORIDADES[country];
+    const flagClass = 'flag-' + country.replace(/ /g, '-');
+    const eleccion = data.proximaEleccion || 'Sin dato';
+    html += `
+      <button class="country-card" onclick="openDrawer('${country}')">
+        <div class="country-card-left">
+          <span class="country-flag ${flagClass}"></span>
+          <div>
+            <div class="country-card-name">${country}</div>
+            <div class="country-card-meta">Próx. elección · ${eleccion}</div>
+          </div>
+        </div>
+        <span class="country-card-arrow">→</span>
+      </button>
+    `;
+  });
+  grid.innerHTML = html;
+}
+
+// ============ DRAWER ============
+function fmtPerson(p, defaultRole) {
+  const role = p.cargo || defaultRole;
+  const name = p.nombre ? `<div class="person-name">${p.nombre}</div>` : `<div class="person-name empty">Pendiente actualización</div>`;
+  const meta = p.desde ? `<div class="person-meta">Desde ${p.desde}</div>` : '';
+  return `
+    <div class="person">
+      <div class="person-role">${role}</div>
+      ${name}
+      ${meta}
+    </div>
+  `;
+}
+
+function openDrawer(country) {
+  const data = AUTORIDADES[country];
+  if (!data) return;
+
+  document.getElementById('drawer-name').textContent = country;
+  document.getElementById('drawer-flag').className = 'country-flag flag-' + country.replace(/ /g, '-');
+
+  const body = document.getElementById('drawer-body');
+  const g = data.gobierno;
+  const e = data.enteAeronautico;
+  const o = data.operadorEstatal;
+
+  body.innerHTML = `
+    <div class="section">
+      <div class="section-label">Gobierno Nacional</div>
+      ${fmtPerson(g.presidente, 'Presidente')}
+      ${fmtPerson(g.vicepresidente, 'Vicepresidente')}
+      ${fmtPerson(g.ministroTransporte, 'Ministro de Transporte')}
+      ${fmtPerson(g.viceministroTransporte, 'Viceministro')}
+    </div>
+
+    <div class="section">
+      <div class="section-label">Ente Aeronáutico</div>
+      <div class="entity-block">
+        <div class="entity-name">${e.nombre} <span class="entity-name-sub">${e.nombreCompleto}</span></div>
+        ${fmtPerson(e.directorGeneral, 'Director General')}
+        ${fmtPerson(e.subdirector, 'Subdirector')}
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Operador Aeroportuario Estatal</div>
+      <div class="entity-block">
+        <div class="entity-name">${o.nombre} <span class="entity-name-sub">${o.nombreCompleto}</span></div>
+        ${fmtPerson(o.presidente, 'Presidente / CEO')}
+        ${fmtPerson(o.directorComercial, 'Director Comercial')}
+        ${fmtPerson(o.directorInfraestructura, 'Director Infraestructura')}
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Última actualización:</strong> ${data.ultimaActualizacion || 'Pendiente carga inicial'}.
+      Verificar con fuentes oficiales antes de gestiones formales.
+      <strong>Próxima elección general:</strong> ${data.proximaEleccion || 'Sin dato'}.
+    </div>
+  `;
+
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-bg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  document.getElementById('drawer-bg').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Cerrar con Esc
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeDrawer();
+});
+
+// Init
+renderGrid();
+
+// ============ PASSWORD GATE ============
+(function(){
+  var gate = document.getElementById('gate');
+  var input = document.getElementById('gate-input');
+  var error = document.getElementById('gate-error');
+  var PASSWORD = '0000';
+  if (sessionStorage.getItem('rd_unlocked') === '1') {
+    gate.style.display = 'none';
+  } else {
+    setTimeout(function(){ input.focus(); }, 100);
+  }
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') {
+      if (input.value === PASSWORD) {
+        sessionStorage.setItem('rd_unlocked','1');
+        gate.style.opacity = '0';
+        gate.style.transition = 'opacity 0.3s';
+        setTimeout(function(){ gate.style.display = 'none'; }, 300);
+      } else {
+        error.style.opacity = '1';
+        input.value = '';
+        setTimeout(function(){ error.style.opacity = '0'; }, 1500);
+      }
+    }
+  });
+})();
+</script>
+</body>
+</html>
