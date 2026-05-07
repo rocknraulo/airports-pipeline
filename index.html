@@ -130,7 +130,10 @@ p {
 <div id="gate" style="position:fixed;inset:0;background:#0A0E1A;z-index:9999;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:20px;font-family:'Geist',sans-serif;">
   <div style="font-family:'Fraunces',serif;font-size:24px;color:#F5C56C;letter-spacing:-0.01em;">Raúl Dutra</div>
   <div style="font-size:13px;color:#9BA3B7;letter-spacing:0.05em;">Acceso privado</div>
-  <input id="gate-input" type="password" inputmode="numeric" autocomplete="off" placeholder="••••" style="background:rgba(245,197,108,0.06);border:1px solid rgba(245,197,108,0.3);border-radius:10px;padding:14px 20px;font-family:'Geist Mono',monospace;font-size:18px;color:#FFD685;text-align:center;width:160px;letter-spacing:0.3em;outline:none;">
+  <div style="display:flex;gap:10px;align-items:center;">
+    <input id="gate-input" type="password" inputmode="text" autocomplete="off" placeholder="•••••" style="background:rgba(245,197,108,0.06);border:1px solid rgba(245,197,108,0.3);border-radius:10px;padding:14px 20px;font-family:'Geist Mono',monospace;font-size:18px;color:#FFD685;text-align:center;width:160px;letter-spacing:0.3em;outline:none;">
+    <button id="gate-submit" type="button" style="background:rgba(245,197,108,0.15);border:1px solid rgba(245,197,108,0.4);border-radius:10px;padding:0 20px;min-height:48px;min-width:48px;font-family:'Geist',sans-serif;font-size:14px;font-weight:500;color:#FFD685;letter-spacing:0.05em;cursor:pointer;outline:none;transition:background 0.2s;">Entrar</button>
+  </div>
   <div id="gate-error" style="font-size:12px;color:#E07A7A;height:14px;opacity:0;transition:opacity 0.2s;">Contraseña incorrecta</div>
 </div>
 <script>
@@ -138,26 +141,28 @@ p {
   var gate = document.getElementById('gate');
   var input = document.getElementById('gate-input');
   var error = document.getElementById('gate-error');
-  var PASSWORD = '0000';
+  var PASSWORD = 'latam';
   if (sessionStorage.getItem('rd_unlocked') === '1') {
     gate.style.display = 'none';
   } else {
     setTimeout(function(){ input.focus(); }, 100);
   }
-  input.addEventListener('keydown', function(e){
-    if (e.key === 'Enter') {
-      if (input.value === PASSWORD) {
-        sessionStorage.setItem('rd_unlocked','1');
-        gate.style.opacity = '0';
-        gate.style.transition = 'opacity 0.3s';
-        setTimeout(function(){ gate.style.display = 'none'; }, 300);
-      } else {
-        error.style.opacity = '1';
-        input.value = '';
-        setTimeout(function(){ error.style.opacity = '0'; }, 1500);
-      }
+  function tryUnlock(){
+    if (input.value === PASSWORD) {
+      sessionStorage.setItem('rd_unlocked','1');
+      gate.style.opacity = '0';
+      gate.style.transition = 'opacity 0.3s';
+      setTimeout(function(){ gate.style.display = 'none'; }, 300);
+    } else {
+      error.style.opacity = '1';
+      input.value = '';
+      setTimeout(function(){ error.style.opacity = '0'; }, 1500);
     }
+  }
+  input.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') tryUnlock();
   });
+  document.getElementById('gate-submit').addEventListener('click', tryUnlock);
 })();
 </script>
 </body>
