@@ -266,6 +266,168 @@ html, body {
   cursor: pointer;
 }
 
+/* Multi-select País */
+.ms-country {
+  position: relative;
+}
+
+.ms-country-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239BA3B7' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.ms-country-trigger:hover,
+.ms-country-trigger:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 197, 108, 0.12);
+}
+
+.ms-country-trigger.has-selection {
+  border-color: rgba(245, 197, 108, 0.35);
+  color: var(--accent-bright);
+}
+
+.ms-country-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: var(--shadow-elev);
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.ms-country-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.ms-country-option:hover {
+  background: rgba(245, 197, 108, 0.06);
+}
+
+.ms-country-option[aria-selected="true"] {
+  color: var(--accent-bright);
+}
+
+.ms-country-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ms-country-option[aria-selected="true"] .ms-country-checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.ms-country-option[aria-selected="true"] .ms-country-checkbox::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.ms-country-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ms-country-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 10px;
+  background: rgba(245, 197, 108, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(245, 197, 108, 0.18);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.ms-country-chip-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ms-country-chip-x:hover {
+  background: rgba(245, 197, 108, 0.2);
+  color: var(--accent-bright);
+}
+
+.ms-country-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.ms-country-clear:hover {
+  color: var(--accent);
+}
+
 .filter-secondary {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -656,9 +818,14 @@ td.monto.no-confirm {
   <section class="filters">
     <div class="filter-group">
       <label class="filter-label">País</label>
-      <select class="filter-select" id="f-country">
-        <option value="">Todos los países</option>
-      </select>
+      <div class="ms-country" id="f-country-ms">
+        <button type="button" class="ms-country-trigger" id="f-country-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="ms-country-trigger-label" id="f-country-label">Todos los países</span>
+        </button>
+        <div class="ms-country-panel" id="f-country-panel" hidden role="listbox" aria-multiselectable="true">
+          <div class="ms-country-options" id="f-country-options"></div>
+        </div>
+      </div>
     </div>
     <div class="filter-group">
       <label class="filter-label">Tipo</label>
@@ -679,6 +846,8 @@ td.monto.no-confirm {
       </select>
     </div>
   </section>
+
+  <div class="ms-country-chips-row" id="f-country-chips" hidden></div>
 
   <section class="filter-secondary">
     <div class="filter-group">
@@ -780,11 +949,123 @@ function fillSelect(id, options) {
   });
 }
 
-fillSelect('f-country', countries);
 fillSelect('f-tipo', tipos);
 fillSelect('f-nicho', nichos);
 fillSelect('f-estado', estados);
 fillSelect('f-fin', fins);
+
+// Multi-select País
+let selectedCountries = new Set();
+
+function renderCountryOptions() {
+  const container = document.getElementById('f-country-options');
+  container.innerHTML = '';
+  countries.forEach(c => {
+    const opt = document.createElement('div');
+    opt.className = 'ms-country-option';
+    opt.setAttribute('role', 'option');
+    opt.dataset.country = c;
+    opt.setAttribute('aria-selected', 'false');
+    opt.innerHTML = `<span class="ms-country-checkbox"></span><span>${c}</span>`;
+    container.appendChild(opt);
+  });
+}
+
+function openCountryPanel() {
+  document.getElementById('f-country-panel').hidden = false;
+  document.getElementById('f-country-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function closeCountryPanel() {
+  document.getElementById('f-country-panel').hidden = true;
+  document.getElementById('f-country-trigger').setAttribute('aria-expanded', 'false');
+}
+
+function toggleCountry(country, optEl) {
+  if (selectedCountries.has(country)) {
+    selectedCountries.delete(country);
+    optEl.setAttribute('aria-selected', 'false');
+  } else {
+    selectedCountries.add(country);
+    optEl.setAttribute('aria-selected', 'true');
+  }
+  updateCountryUI();
+  applyFilters();
+}
+
+function updateCountryUI() {
+  const trigger = document.getElementById('f-country-trigger');
+  const label = document.getElementById('f-country-label');
+  const chips = document.getElementById('f-country-chips');
+  const count = selectedCountries.size;
+  if (count === 0) {
+    label.textContent = 'Todos los países';
+    trigger.classList.remove('has-selection');
+    chips.hidden = true;
+    chips.innerHTML = '';
+  } else {
+    label.textContent = `Países (${count})`;
+    trigger.classList.add('has-selection');
+    chips.hidden = false;
+    chips.innerHTML = '';
+    selectedCountries.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'ms-country-chip';
+      chip.innerHTML = `${c}<button type="button" class="ms-country-chip-x" data-country="${c}" aria-label="Quitar ${c}">×</button>`;
+      chips.appendChild(chip);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'ms-country-clear';
+    clear.textContent = 'Limpiar';
+    chips.appendChild(clear);
+  }
+}
+
+function clearAllCountries() {
+  selectedCountries.clear();
+  document.querySelectorAll('.ms-country-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  updateCountryUI();
+}
+
+renderCountryOptions();
+updateCountryUI();
+
+document.getElementById('f-country-trigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const panel = document.getElementById('f-country-panel');
+  if (panel.hidden) openCountryPanel();
+  else closeCountryPanel();
+});
+
+document.getElementById('f-country-options').addEventListener('click', e => {
+  const opt = e.target.closest('.ms-country-option');
+  if (!opt) return;
+  toggleCountry(opt.dataset.country, opt);
+});
+
+document.getElementById('f-country-chips').addEventListener('click', e => {
+  const x = e.target.closest('.ms-country-chip-x');
+  if (x) {
+    const country = x.dataset.country;
+    const opt = document.querySelector(`.ms-country-option[data-country="${country}"]`);
+    toggleCountry(country, opt);
+    return;
+  }
+  if (e.target.closest('.ms-country-clear')) {
+    clearAllCountries();
+    applyFilters();
+  }
+});
+
+document.addEventListener('mousedown', e => {
+  const wrap = document.getElementById('f-country-ms');
+  if (!wrap.contains(e.target)) closeCountryPanel();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeCountryPanel();
+});
 
 function fmtMoney(n) {
   if (n === null || n === undefined || n === '') return null;
@@ -800,7 +1081,6 @@ function fmtMoneyFull(n) {
 }
 
 function applyFilters() {
-  const country = document.getElementById('f-country').value;
   const tipo = document.getElementById('f-tipo').value;
   const nicho = document.getElementById('f-nicho').value;
   const estado = document.getElementById('f-estado').value;
@@ -809,7 +1089,7 @@ function applyFilters() {
   const monto = parseInt(document.getElementById('f-monto').value);
 
   filtered = DATA.filter(p => {
-    if (country && p['País'] !== country) return false;
+    if (selectedCountries.size > 0 && !selectedCountries.has(p['País'])) return false;
     if (tipo && p['Tipo'] !== tipo) return false;
     if (nicho && p['Nicho principal'] !== nicho) return false;
     if (estado && p['Estado'] !== estado) return false;
@@ -953,15 +1233,16 @@ function updateStats() {
 }
 
 function clearFilters() {
-  ['f-country','f-tipo','f-nicho','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
+  ['f-tipo','f-nicho','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('f-search').value = '';
   document.getElementById('f-monto').value = 0;
   document.getElementById('range-display').textContent = 'USD 0';
+  clearAllCountries();
   applyFilters();
 }
 
 // Event listeners
-['f-country','f-tipo','f-nicho','f-estado','f-fin'].forEach(id => {
+['f-tipo','f-nicho','f-estado','f-fin'].forEach(id => {
   document.getElementById(id).addEventListener('change', applyFilters);
 });
 document.getElementById('f-search').addEventListener('input', applyFilters);
