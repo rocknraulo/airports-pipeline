@@ -23,3 +23,5 @@
 
 ## Idioma
 - Respondeme siempre en español rioplatense informal (vos, decime, dale).
+
+<!-- Setup Mac 2017 validado: 11 mayo 2026 -->
