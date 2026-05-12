@@ -428,6 +428,168 @@ html, body {
   color: var(--accent);
 }
 
+/* Multi-select Nicho */
+.ms-nicho {
+  position: relative;
+}
+
+.ms-nicho-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239BA3B7' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.ms-nicho-trigger:hover,
+.ms-nicho-trigger:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 197, 108, 0.12);
+}
+
+.ms-nicho-trigger.has-selection {
+  border-color: rgba(245, 197, 108, 0.35);
+  color: var(--accent-bright);
+}
+
+.ms-nicho-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: var(--shadow-elev);
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.ms-nicho-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.ms-nicho-option:hover {
+  background: rgba(245, 197, 108, 0.06);
+}
+
+.ms-nicho-option[aria-selected="true"] {
+  color: var(--accent-bright);
+}
+
+.ms-nicho-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ms-nicho-option[aria-selected="true"] .ms-nicho-checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.ms-nicho-option[aria-selected="true"] .ms-nicho-checkbox::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.ms-nicho-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ms-nicho-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 10px;
+  background: rgba(245, 197, 108, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(245, 197, 108, 0.18);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.ms-nicho-chip-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ms-nicho-chip-x:hover {
+  background: rgba(245, 197, 108, 0.2);
+  color: var(--accent-bright);
+}
+
+.ms-nicho-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.ms-nicho-clear:hover {
+  color: var(--accent);
+}
+
 .filter-secondary {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -835,9 +997,14 @@ td.monto.no-confirm {
     </div>
     <div class="filter-group">
       <label class="filter-label">Nicho</label>
-      <select class="filter-select" id="f-nicho">
-        <option value="">Todos los nichos</option>
-      </select>
+      <div class="ms-nicho" id="f-nicho-ms">
+        <button type="button" class="ms-nicho-trigger" id="f-nicho-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="ms-nicho-trigger-label" id="f-nicho-label">Todos los nichos</span>
+        </button>
+        <div class="ms-nicho-panel" id="f-nicho-panel" hidden role="listbox" aria-multiselectable="true">
+          <div class="ms-nicho-options" id="f-nicho-options"></div>
+        </div>
+      </div>
     </div>
     <div class="filter-group">
       <label class="filter-label">Estado</label>
@@ -848,6 +1015,7 @@ td.monto.no-confirm {
   </section>
 
   <div class="ms-country-chips-row" id="f-country-chips" hidden></div>
+  <div class="ms-nicho-chips-row" id="f-nicho-chips" hidden></div>
 
   <section class="filter-secondary">
     <div class="filter-group">
@@ -950,7 +1118,6 @@ function fillSelect(id, options) {
 }
 
 fillSelect('f-tipo', tipos);
-fillSelect('f-nicho', nichos);
 fillSelect('f-estado', estados);
 fillSelect('f-fin', fins);
 
@@ -1067,6 +1234,119 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeCountryPanel();
 });
 
+// Multi-select Nicho
+let selectedNichos = new Set();
+
+function renderNichoOptions() {
+  const container = document.getElementById('f-nicho-options');
+  container.innerHTML = '';
+  nichos.forEach(c => {
+    const opt = document.createElement('div');
+    opt.className = 'ms-nicho-option';
+    opt.setAttribute('role', 'option');
+    opt.dataset.nicho = c;
+    opt.setAttribute('aria-selected', 'false');
+    opt.innerHTML = `<span class="ms-nicho-checkbox"></span><span>${c}</span>`;
+    container.appendChild(opt);
+  });
+}
+
+function openNichoPanel() {
+  document.getElementById('f-nicho-panel').hidden = false;
+  document.getElementById('f-nicho-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function closeNichoPanel() {
+  document.getElementById('f-nicho-panel').hidden = true;
+  document.getElementById('f-nicho-trigger').setAttribute('aria-expanded', 'false');
+}
+
+function toggleNicho(nicho, optEl) {
+  if (selectedNichos.has(nicho)) {
+    selectedNichos.delete(nicho);
+    optEl.setAttribute('aria-selected', 'false');
+  } else {
+    selectedNichos.add(nicho);
+    optEl.setAttribute('aria-selected', 'true');
+  }
+  updateNichoUI();
+  applyFilters();
+}
+
+function updateNichoUI() {
+  const trigger = document.getElementById('f-nicho-trigger');
+  const label = document.getElementById('f-nicho-label');
+  const chips = document.getElementById('f-nicho-chips');
+  const count = selectedNichos.size;
+  if (count === 0) {
+    label.textContent = 'Todos los nichos';
+    trigger.classList.remove('has-selection');
+    chips.hidden = true;
+    chips.innerHTML = '';
+  } else {
+    label.textContent = `Nichos (${count})`;
+    trigger.classList.add('has-selection');
+    chips.hidden = false;
+    chips.innerHTML = '';
+    selectedNichos.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'ms-nicho-chip';
+      chip.innerHTML = `${c}<button type="button" class="ms-nicho-chip-x" data-nicho="${c}" aria-label="Quitar ${c}">×</button>`;
+      chips.appendChild(chip);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'ms-nicho-clear';
+    clear.textContent = 'Limpiar';
+    chips.appendChild(clear);
+  }
+}
+
+function clearAllNichos() {
+  selectedNichos.clear();
+  document.querySelectorAll('.ms-nicho-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  updateNichoUI();
+}
+
+renderNichoOptions();
+updateNichoUI();
+
+document.getElementById('f-nicho-trigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const panel = document.getElementById('f-nicho-panel');
+  if (panel.hidden) openNichoPanel();
+  else closeNichoPanel();
+});
+
+document.getElementById('f-nicho-options').addEventListener('click', e => {
+  const opt = e.target.closest('.ms-nicho-option');
+  if (!opt) return;
+  toggleNicho(opt.dataset.nicho, opt);
+});
+
+document.getElementById('f-nicho-chips').addEventListener('click', e => {
+  const x = e.target.closest('.ms-nicho-chip-x');
+  if (x) {
+    const nicho = x.dataset.nicho;
+    const opt = document.querySelector(`.ms-nicho-option[data-nicho="${nicho}"]`);
+    toggleNicho(nicho, opt);
+    return;
+  }
+  if (e.target.closest('.ms-nicho-clear')) {
+    clearAllNichos();
+    applyFilters();
+  }
+});
+
+document.addEventListener('mousedown', e => {
+  const wrap = document.getElementById('f-nicho-ms');
+  if (!wrap.contains(e.target)) closeNichoPanel();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeNichoPanel();
+});
+
 function fmtMoney(n) {
   if (n === null || n === undefined || n === '') return null;
   if (n >= 1e9) return '$' + (n/1e9).toFixed(2) + 'B';
@@ -1082,7 +1362,6 @@ function fmtMoneyFull(n) {
 
 function applyFilters() {
   const tipo = document.getElementById('f-tipo').value;
-  const nicho = document.getElementById('f-nicho').value;
   const estado = document.getElementById('f-estado').value;
   const fin = document.getElementById('f-fin').value;
   const search = document.getElementById('f-search').value.toLowerCase().trim();
@@ -1091,7 +1370,7 @@ function applyFilters() {
   filtered = DATA.filter(p => {
     if (selectedCountries.size > 0 && !selectedCountries.has(p['País'])) return false;
     if (tipo && p['Tipo'] !== tipo) return false;
-    if (nicho && p['Nicho principal'] !== nicho) return false;
+    if (selectedNichos.size > 0 && !selectedNichos.has(p['Nicho principal'])) return false;
     if (estado && p['Estado'] !== estado) return false;
     if (fin && p['Financiador / Operador'] !== fin) return false;
     if (monto > 0) {
@@ -1233,16 +1512,17 @@ function updateStats() {
 }
 
 function clearFilters() {
-  ['f-tipo','f-nicho','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
+  ['f-tipo','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('f-search').value = '';
   document.getElementById('f-monto').value = 0;
   document.getElementById('range-display').textContent = 'USD 0';
   clearAllCountries();
+  clearAllNichos();
   applyFilters();
 }
 
 // Event listeners
-['f-tipo','f-nicho','f-estado','f-fin'].forEach(id => {
+['f-tipo','f-estado','f-fin'].forEach(id => {
   document.getElementById(id).addEventListener('change', applyFilters);
 });
 document.getElementById('f-search').addEventListener('input', applyFilters);
