@@ -590,6 +590,168 @@ html, body {
   color: var(--accent);
 }
 
+/* Multi-select genérico (Tipo, Estado, Financiador) */
+.ms {
+  position: relative;
+}
+
+.ms-trigger {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239BA3B7' d='M6 8L2 4h8z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  padding-right: 32px;
+}
+
+.ms-trigger:hover,
+.ms-trigger:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(245, 197, 108, 0.12);
+}
+
+.ms-trigger.has-selection {
+  border-color: rgba(245, 197, 108, 0.35);
+  color: var(--accent-bright);
+}
+
+.ms-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  box-shadow: var(--shadow-elev);
+  max-height: 280px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.ms-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-primary);
+  user-select: none;
+  transition: background 0.15s;
+}
+
+.ms-option:hover {
+  background: rgba(245, 197, 108, 0.06);
+}
+
+.ms-option[aria-selected="true"] {
+  color: var(--accent-bright);
+}
+
+.ms-checkbox {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  flex-shrink: 0;
+  position: relative;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.ms-option[aria-selected="true"] .ms-checkbox {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.ms-option[aria-selected="true"] .ms-checkbox::after {
+  content: "";
+  position: absolute;
+  left: 3px;
+  top: 0;
+  width: 4px;
+  height: 8px;
+  border: solid var(--bg-primary);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.ms-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ms-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 4px 4px 10px;
+  background: rgba(245, 197, 108, 0.08);
+  color: var(--accent);
+  border: 1px solid rgba(245, 197, 108, 0.18);
+  border-radius: 999px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.ms-chip-x {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  color: var(--accent);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ms-chip-x:hover {
+  background: rgba(245, 197, 108, 0.2);
+  color: var(--accent-bright);
+}
+
+.ms-clear {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  padding: 4px 8px;
+  transition: color 0.15s;
+}
+
+.ms-clear:hover {
+  color: var(--accent);
+}
+
 .filter-secondary {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -991,9 +1153,14 @@ td.monto.no-confirm {
     </div>
     <div class="filter-group">
       <label class="filter-label">Tipo</label>
-      <select class="filter-select" id="f-tipo">
-        <option value="">Todos los tipos</option>
-      </select>
+      <div class="ms" id="f-tipo-ms">
+        <button type="button" class="ms-trigger" id="f-tipo-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="ms-trigger-label" id="f-tipo-label">Todos los tipos</span>
+        </button>
+        <div class="ms-panel" id="f-tipo-panel" hidden role="listbox" aria-multiselectable="true">
+          <div class="ms-options" id="f-tipo-options"></div>
+        </div>
+      </div>
     </div>
     <div class="filter-group">
       <label class="filter-label">Nicho</label>
@@ -1008,14 +1175,22 @@ td.monto.no-confirm {
     </div>
     <div class="filter-group">
       <label class="filter-label">Estado</label>
-      <select class="filter-select" id="f-estado">
-        <option value="">Todos los estados</option>
-      </select>
+      <div class="ms" id="f-estado-ms">
+        <button type="button" class="ms-trigger" id="f-estado-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="ms-trigger-label" id="f-estado-label">Todos los estados</span>
+        </button>
+        <div class="ms-panel" id="f-estado-panel" hidden role="listbox" aria-multiselectable="true">
+          <div class="ms-options" id="f-estado-options"></div>
+        </div>
+      </div>
     </div>
   </section>
 
   <div class="ms-country-chips-row" id="f-country-chips" hidden></div>
   <div class="ms-nicho-chips-row" id="f-nicho-chips" hidden></div>
+  <div class="ms-chips-row" id="f-tipo-chips" hidden></div>
+  <div class="ms-chips-row" id="f-estado-chips" hidden></div>
+  <div class="ms-chips-row" id="f-fin-chips" hidden></div>
 
   <section class="filter-secondary">
     <div class="filter-group">
@@ -1024,9 +1199,14 @@ td.monto.no-confirm {
     </div>
     <div class="filter-group">
       <label class="filter-label">Financiador</label>
-      <select class="filter-select" id="f-fin">
-        <option value="">Todos</option>
-      </select>
+      <div class="ms" id="f-fin-ms">
+        <button type="button" class="ms-trigger" id="f-fin-trigger" aria-haspopup="listbox" aria-expanded="false">
+          <span class="ms-trigger-label" id="f-fin-label">Todos los financiadores</span>
+        </button>
+        <div class="ms-panel" id="f-fin-panel" hidden role="listbox" aria-multiselectable="true">
+          <div class="ms-options" id="f-fin-options"></div>
+        </div>
+      </div>
     </div>
     <div class="filter-group range-group">
       <div class="range-header">
@@ -1116,10 +1296,6 @@ function fillSelect(id, options) {
     sel.appendChild(opt);
   });
 }
-
-fillSelect('f-tipo', tipos);
-fillSelect('f-estado', estados);
-fillSelect('f-fin', fins);
 
 // Registro central de multi-selects para handlers globales unificados
 const multiSelects = [];
@@ -1336,6 +1512,324 @@ document.getElementById('f-nicho-chips').addEventListener('click', e => {
 
 multiSelects.push({ wrapperId: 'f-nicho-ms', close: closeNichoPanel });
 
+// Multi-select Tipo
+let selectedTipos = new Set();
+
+function renderTipoOptions() {
+  const container = document.getElementById('f-tipo-options');
+  container.innerHTML = '';
+  tipos.forEach(c => {
+    const opt = document.createElement('div');
+    opt.className = 'ms-option';
+    opt.setAttribute('role', 'option');
+    opt.dataset.tipo = c;
+    opt.setAttribute('aria-selected', 'false');
+    opt.innerHTML = `<span class="ms-checkbox"></span><span>${c}</span>`;
+    container.appendChild(opt);
+  });
+}
+
+function openTipoPanel() {
+  document.getElementById('f-tipo-panel').hidden = false;
+  document.getElementById('f-tipo-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function closeTipoPanel() {
+  document.getElementById('f-tipo-panel').hidden = true;
+  document.getElementById('f-tipo-trigger').setAttribute('aria-expanded', 'false');
+}
+
+function toggleTipo(tipo, optEl) {
+  if (selectedTipos.has(tipo)) {
+    selectedTipos.delete(tipo);
+    optEl.setAttribute('aria-selected', 'false');
+  } else {
+    selectedTipos.add(tipo);
+    optEl.setAttribute('aria-selected', 'true');
+  }
+  updateTipoUI();
+  applyFilters();
+}
+
+function updateTipoUI() {
+  const trigger = document.getElementById('f-tipo-trigger');
+  const label = document.getElementById('f-tipo-label');
+  const chips = document.getElementById('f-tipo-chips');
+  const count = selectedTipos.size;
+  if (count === 0) {
+    label.textContent = 'Todos los tipos';
+    trigger.classList.remove('has-selection');
+    chips.hidden = true;
+    chips.innerHTML = '';
+  } else {
+    label.textContent = `Tipos (${count})`;
+    trigger.classList.add('has-selection');
+    chips.hidden = false;
+    chips.innerHTML = '';
+    selectedTipos.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'ms-chip';
+      chip.innerHTML = `${c}<button type="button" class="ms-chip-x" data-tipo="${c}" aria-label="Quitar ${c}">×</button>`;
+      chips.appendChild(chip);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'ms-clear';
+    clear.textContent = 'Limpiar';
+    chips.appendChild(clear);
+  }
+}
+
+function clearAllTipos() {
+  selectedTipos.clear();
+  document.querySelectorAll('#f-tipo-options .ms-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  updateTipoUI();
+}
+
+renderTipoOptions();
+updateTipoUI();
+
+document.getElementById('f-tipo-trigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const panel = document.getElementById('f-tipo-panel');
+  if (panel.hidden) openTipoPanel();
+  else closeTipoPanel();
+});
+
+document.getElementById('f-tipo-options').addEventListener('click', e => {
+  const opt = e.target.closest('.ms-option');
+  if (!opt) return;
+  toggleTipo(opt.dataset.tipo, opt);
+});
+
+document.getElementById('f-tipo-chips').addEventListener('click', e => {
+  const x = e.target.closest('.ms-chip-x');
+  if (x) {
+    const tipo = x.dataset.tipo;
+    const opt = document.querySelector(`#f-tipo-options .ms-option[data-tipo="${tipo}"]`);
+    toggleTipo(tipo, opt);
+    return;
+  }
+  if (e.target.closest('.ms-clear')) {
+    clearAllTipos();
+    applyFilters();
+  }
+});
+
+multiSelects.push({ wrapperId: 'f-tipo-ms', close: closeTipoPanel });
+
+// Multi-select Estado
+let selectedEstados = new Set();
+
+function renderEstadoOptions() {
+  const container = document.getElementById('f-estado-options');
+  container.innerHTML = '';
+  estados.forEach(c => {
+    const opt = document.createElement('div');
+    opt.className = 'ms-option';
+    opt.setAttribute('role', 'option');
+    opt.dataset.estado = c;
+    opt.setAttribute('aria-selected', 'false');
+    opt.innerHTML = `<span class="ms-checkbox"></span><span>${c}</span>`;
+    container.appendChild(opt);
+  });
+}
+
+function openEstadoPanel() {
+  document.getElementById('f-estado-panel').hidden = false;
+  document.getElementById('f-estado-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function closeEstadoPanel() {
+  document.getElementById('f-estado-panel').hidden = true;
+  document.getElementById('f-estado-trigger').setAttribute('aria-expanded', 'false');
+}
+
+function toggleEstado(estado, optEl) {
+  if (selectedEstados.has(estado)) {
+    selectedEstados.delete(estado);
+    optEl.setAttribute('aria-selected', 'false');
+  } else {
+    selectedEstados.add(estado);
+    optEl.setAttribute('aria-selected', 'true');
+  }
+  updateEstadoUI();
+  applyFilters();
+}
+
+function updateEstadoUI() {
+  const trigger = document.getElementById('f-estado-trigger');
+  const label = document.getElementById('f-estado-label');
+  const chips = document.getElementById('f-estado-chips');
+  const count = selectedEstados.size;
+  if (count === 0) {
+    label.textContent = 'Todos los estados';
+    trigger.classList.remove('has-selection');
+    chips.hidden = true;
+    chips.innerHTML = '';
+  } else {
+    label.textContent = `Estados (${count})`;
+    trigger.classList.add('has-selection');
+    chips.hidden = false;
+    chips.innerHTML = '';
+    selectedEstados.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'ms-chip';
+      chip.innerHTML = `${c}<button type="button" class="ms-chip-x" data-estado="${c}" aria-label="Quitar ${c}">×</button>`;
+      chips.appendChild(chip);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'ms-clear';
+    clear.textContent = 'Limpiar';
+    chips.appendChild(clear);
+  }
+}
+
+function clearAllEstados() {
+  selectedEstados.clear();
+  document.querySelectorAll('#f-estado-options .ms-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  updateEstadoUI();
+}
+
+renderEstadoOptions();
+updateEstadoUI();
+
+document.getElementById('f-estado-trigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const panel = document.getElementById('f-estado-panel');
+  if (panel.hidden) openEstadoPanel();
+  else closeEstadoPanel();
+});
+
+document.getElementById('f-estado-options').addEventListener('click', e => {
+  const opt = e.target.closest('.ms-option');
+  if (!opt) return;
+  toggleEstado(opt.dataset.estado, opt);
+});
+
+document.getElementById('f-estado-chips').addEventListener('click', e => {
+  const x = e.target.closest('.ms-chip-x');
+  if (x) {
+    const estado = x.dataset.estado;
+    const opt = document.querySelector(`#f-estado-options .ms-option[data-estado="${estado}"]`);
+    toggleEstado(estado, opt);
+    return;
+  }
+  if (e.target.closest('.ms-clear')) {
+    clearAllEstados();
+    applyFilters();
+  }
+});
+
+multiSelects.push({ wrapperId: 'f-estado-ms', close: closeEstadoPanel });
+
+// Multi-select Financiador
+let selectedFins = new Set();
+
+function renderFinOptions() {
+  const container = document.getElementById('f-fin-options');
+  container.innerHTML = '';
+  fins.forEach(c => {
+    const opt = document.createElement('div');
+    opt.className = 'ms-option';
+    opt.setAttribute('role', 'option');
+    opt.dataset.fin = c;
+    opt.setAttribute('aria-selected', 'false');
+    opt.innerHTML = `<span class="ms-checkbox"></span><span>${c}</span>`;
+    container.appendChild(opt);
+  });
+}
+
+function openFinPanel() {
+  document.getElementById('f-fin-panel').hidden = false;
+  document.getElementById('f-fin-trigger').setAttribute('aria-expanded', 'true');
+}
+
+function closeFinPanel() {
+  document.getElementById('f-fin-panel').hidden = true;
+  document.getElementById('f-fin-trigger').setAttribute('aria-expanded', 'false');
+}
+
+function toggleFin(fin, optEl) {
+  if (selectedFins.has(fin)) {
+    selectedFins.delete(fin);
+    optEl.setAttribute('aria-selected', 'false');
+  } else {
+    selectedFins.add(fin);
+    optEl.setAttribute('aria-selected', 'true');
+  }
+  updateFinUI();
+  applyFilters();
+}
+
+function updateFinUI() {
+  const trigger = document.getElementById('f-fin-trigger');
+  const label = document.getElementById('f-fin-label');
+  const chips = document.getElementById('f-fin-chips');
+  const count = selectedFins.size;
+  if (count === 0) {
+    label.textContent = 'Todos los financiadores';
+    trigger.classList.remove('has-selection');
+    chips.hidden = true;
+    chips.innerHTML = '';
+  } else {
+    label.textContent = `Financiadores (${count})`;
+    trigger.classList.add('has-selection');
+    chips.hidden = false;
+    chips.innerHTML = '';
+    selectedFins.forEach(c => {
+      const chip = document.createElement('span');
+      chip.className = 'ms-chip';
+      chip.innerHTML = `${c}<button type="button" class="ms-chip-x" data-fin="${c}" aria-label="Quitar ${c}">×</button>`;
+      chips.appendChild(chip);
+    });
+    const clear = document.createElement('button');
+    clear.type = 'button';
+    clear.className = 'ms-clear';
+    clear.textContent = 'Limpiar';
+    chips.appendChild(clear);
+  }
+}
+
+function clearAllFins() {
+  selectedFins.clear();
+  document.querySelectorAll('#f-fin-options .ms-option').forEach(o => o.setAttribute('aria-selected', 'false'));
+  updateFinUI();
+}
+
+renderFinOptions();
+updateFinUI();
+
+document.getElementById('f-fin-trigger').addEventListener('click', e => {
+  e.stopPropagation();
+  const panel = document.getElementById('f-fin-panel');
+  if (panel.hidden) openFinPanel();
+  else closeFinPanel();
+});
+
+document.getElementById('f-fin-options').addEventListener('click', e => {
+  const opt = e.target.closest('.ms-option');
+  if (!opt) return;
+  toggleFin(opt.dataset.fin, opt);
+});
+
+document.getElementById('f-fin-chips').addEventListener('click', e => {
+  const x = e.target.closest('.ms-chip-x');
+  if (x) {
+    const fin = x.dataset.fin;
+    const opt = document.querySelector(`#f-fin-options .ms-option[data-fin="${fin}"]`);
+    toggleFin(fin, opt);
+    return;
+  }
+  if (e.target.closest('.ms-clear')) {
+    clearAllFins();
+    applyFilters();
+  }
+});
+
+multiSelects.push({ wrapperId: 'f-fin-ms', close: closeFinPanel });
+
 // Handlers globales unificados para todos los multi-selects
 document.addEventListener('mousedown', e => {
   multiSelects.forEach(ms => {
@@ -1363,18 +1857,15 @@ function fmtMoneyFull(n) {
 }
 
 function applyFilters() {
-  const tipo = document.getElementById('f-tipo').value;
-  const estado = document.getElementById('f-estado').value;
-  const fin = document.getElementById('f-fin').value;
   const search = document.getElementById('f-search').value.toLowerCase().trim();
   const monto = parseInt(document.getElementById('f-monto').value);
 
   filtered = DATA.filter(p => {
     if (selectedCountries.size > 0 && !selectedCountries.has(p['País'])) return false;
-    if (tipo && p['Tipo'] !== tipo) return false;
+    if (selectedTipos.size > 0 && !selectedTipos.has(p['Tipo'])) return false;
     if (selectedNichos.size > 0 && !selectedNichos.has(p['Nicho principal'])) return false;
-    if (estado && p['Estado'] !== estado) return false;
-    if (fin && p['Financiador / Operador'] !== fin) return false;
+    if (selectedEstados.size > 0 && !selectedEstados.has(p['Estado'])) return false;
+    if (selectedFins.size > 0 && !selectedFins.has(p['Financiador / Operador'])) return false;
     if (monto > 0) {
       if (!p['Monto USD'] || p['Monto USD'] < monto) return false;
     }
@@ -1514,19 +2005,18 @@ function updateStats() {
 }
 
 function clearFilters() {
-  ['f-tipo','f-estado','f-fin'].forEach(id => document.getElementById(id).value = '');
   document.getElementById('f-search').value = '';
   document.getElementById('f-monto').value = 0;
   document.getElementById('range-display').textContent = 'USD 0';
   clearAllCountries();
   clearAllNichos();
+  clearAllTipos();
+  clearAllEstados();
+  clearAllFins();
   applyFilters();
 }
 
 // Event listeners
-['f-tipo','f-estado','f-fin'].forEach(id => {
-  document.getElementById(id).addEventListener('change', applyFilters);
-});
 document.getElementById('f-search').addEventListener('input', applyFilters);
 document.getElementById('f-monto').addEventListener('input', e => {
   document.getElementById('range-display').textContent = fmtMoney(parseInt(e.target.value)) || 'USD 0';
