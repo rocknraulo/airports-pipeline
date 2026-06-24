@@ -1121,6 +1121,9 @@ fillSelect('f-tipo', tipos);
 fillSelect('f-estado', estados);
 fillSelect('f-fin', fins);
 
+// Registro central de multi-selects para handlers globales unificados
+const multiSelects = [];
+
 // Multi-select País
 let selectedCountries = new Set();
 
@@ -1225,14 +1228,7 @@ document.getElementById('f-country-chips').addEventListener('click', e => {
   }
 });
 
-document.addEventListener('mousedown', e => {
-  const wrap = document.getElementById('f-country-ms');
-  if (!wrap.contains(e.target)) closeCountryPanel();
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeCountryPanel();
-});
+multiSelects.push({ wrapperId: 'f-country-ms', close: closeCountryPanel });
 
 // Multi-select Nicho
 let selectedNichos = new Set();
@@ -1338,13 +1334,19 @@ document.getElementById('f-nicho-chips').addEventListener('click', e => {
   }
 });
 
+multiSelects.push({ wrapperId: 'f-nicho-ms', close: closeNichoPanel });
+
+// Handlers globales unificados para todos los multi-selects
 document.addEventListener('mousedown', e => {
-  const wrap = document.getElementById('f-nicho-ms');
-  if (!wrap.contains(e.target)) closeNichoPanel();
+  multiSelects.forEach(ms => {
+    const wrap = document.getElementById(ms.wrapperId);
+    if (wrap && !wrap.contains(e.target)) ms.close();
+  });
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeNichoPanel();
+  if (e.key !== 'Escape') return;
+  multiSelects.forEach(ms => ms.close());
 });
 
 function fmtMoney(n) {
