@@ -1,0 +1,894 @@
+{
+  "meta": {
+    "descripcion": "Esqueleto de instituciones por vertical y país. v1: solo entes, sin nombres propios.",
+    "piloto": "airports / Panamá (3 entes con URL verificada)"
+  },
+  "navegacion": {
+    "airports": {
+      "Panamá": [
+        "pa-aac",
+        "pa-aitsa",
+        "pa-panamacompra"
+      ],
+      "Brasil": [
+        "br-anac",
+        "br-mpor",
+        "br-infraero",
+        "br-bndes"
+      ],
+      "El Salvador": [
+        "sv-aac",
+        "sv-cepa",
+        "sv-comprasal"
+      ],
+      "Guatemala": [
+        "gt-dgac",
+        "gt-guatecompras"
+      ],
+      "Honduras": [
+        "hn-ahac",
+        "hn-sit",
+        "hn-palmerola",
+        "hn-honducompras"
+      ],
+      "Costa Rica": [
+        "cr-dgac",
+        "cr-cetac",
+        "cr-aeris",
+        "cr-sicop"
+      ],
+      "Ecuador": [
+        "ec-dgac",
+        "ec-quiport",
+        "ec-sercop"
+      ],
+      "México": [
+        "mx-afac",
+        "mx-asa",
+        "mx-sict",
+        "mx-gacm",
+        "mx-compranet"
+      ],
+      "Bolivia": [
+        "bo-dgac",
+        "bo-aasana",
+        "bo-sabsa",
+        "bo-mopsv",
+        "bo-sicoes"
+      ],
+      "Chile": [
+        "cl-dgac",
+        "cl-dap-mop",
+        "cl-dgc-mop",
+        "cl-chilecompra"
+      ],
+      "Argentina": [
+        "ar-anac",
+        "ar-orsna",
+        "ar-aa2000",
+        "ar-comprar"
+      ],
+      "Perú": [
+        "pe-dgac",
+        "pe-corpac",
+        "pe-ositran",
+        "pe-proinversion",
+        "pe-seace"
+      ],
+      "Colombia": [
+        "co-aerocivil",
+        "co-ani",
+        "co-secop"
+      ],
+      "Rep. Dominicana": [
+        "do-idac",
+        "do-jac",
+        "do-aerodom",
+        "do-comprasrd"
+      ],
+      "Regional": [
+        "ml-bid",
+        "ml-bm",
+        "ml-caf",
+        "ml-fonplata"
+      ]
+    },
+    "roads": {
+      "Honduras": [
+        "hn-sit"
+      ],
+      "Bolivia": [
+        "bo-mopsv"
+      ],
+      "Perú": [
+        "pe-ositran",
+        "pe-proinversion"
+      ],
+      "Colombia": [
+        "co-ani"
+      ],
+      "Regional": [
+        "ml-bid",
+        "ml-bm",
+        "ml-caf",
+        "ml-fonplata"
+      ]
+    },
+    "rail": {
+      "Regional": [
+        "ml-bid",
+        "ml-bm",
+        "ml-caf",
+        "ml-fonplata"
+      ]
+    },
+    "agua": {
+      "Regional": [
+        "ml-bid",
+        "ml-bm",
+        "ml-caf",
+        "ml-fonplata"
+      ]
+    }
+  },
+  "entes": {
+    "pa-aac": {
+      "id": "pa-aac",
+      "ente": "AAC",
+      "nombre_completo": "Autoridad Aeronáutica Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico y administrador de aeropuertos del interior",
+      "url_oficial": "https://www.aeronautica.gob.pa/",
+      "pais": "Panamá",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "pa-aitsa": {
+      "id": "pa-aitsa",
+      "ente": "AITSA",
+      "nombre_completo": "Aeropuerto Internacional de Tocumen S.A.",
+      "tipo": "Operador",
+      "rol": "Operador estatal de Tocumen; ejecuta y licita obras del hub",
+      "url_oficial": "https://www.tocumenpanama.aero/",
+      "pais": "Panamá",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "pa-panamacompra": {
+      "id": "pa-panamacompra",
+      "ente": "PanamaCompra",
+      "nombre_completo": "Sistema Electrónico de Contrataciones Públicas",
+      "tipo": "Portal compras",
+      "rol": "Portal donde se publican las licitaciones",
+      "url_oficial": "https://www.panamacompra.gob.pa/",
+      "pais": "Panamá",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "br-anac": {
+      "id": "br-anac",
+      "ente": "ANAC",
+      "nombre_completo": "Agência Nacional de Aviação Civil",
+      "tipo": "Regulador/Concedente",
+      "rol": "Regulador y conductor de las subastas de concesión aeroportuaria",
+      "url_oficial": "",
+      "pais": "Brasil",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "br-mpor": {
+      "id": "br-mpor",
+      "ente": "Min. Portos e Aeroportos",
+      "nombre_completo": "Ministério de Portos e Aeroportos",
+      "tipo": "Ministerio",
+      "rol": "Define política y programa de concesiones",
+      "url_oficial": "",
+      "pais": "Brasil",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "br-infraero": {
+      "id": "br-infraero",
+      "ente": "Infraero",
+      "nombre_completo": "Empresa Brasileira de Infraestrutura Aeroportuária",
+      "tipo": "Operador",
+      "rol": "Operador estatal de aeropuertos no concesionados",
+      "url_oficial": "",
+      "pais": "Brasil",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "br-bndes": {
+      "id": "br-bndes",
+      "ente": "BNDES",
+      "nombre_completo": "Banco Nacional de Desenvolvimento Econômico e Social",
+      "tipo": "Financiador",
+      "rol": "Banco de desarrollo que financia concesiones e infraestructura",
+      "url_oficial": "",
+      "pais": "Brasil",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "sv-aac": {
+      "id": "sv-aac",
+      "ente": "AAC",
+      "nombre_completo": "Autoridad de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "El Salvador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "sv-cepa": {
+      "id": "sv-cepa",
+      "ente": "CEPA",
+      "nombre_completo": "Comisión Ejecutiva Portuaria Autónoma",
+      "tipo": "Operador",
+      "rol": "Administra y desarrolla el Aeropuerto Internacional de El Salvador",
+      "url_oficial": "",
+      "pais": "El Salvador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "sv-comprasal": {
+      "id": "sv-comprasal",
+      "ente": "COMPRASAL",
+      "nombre_completo": "Sistema Electrónico de Compras Públicas",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "El Salvador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "gt-dgac": {
+      "id": "gt-dgac",
+      "ente": "DGAC",
+      "nombre_completo": "Dirección General de Aeronáutica Civil",
+      "tipo": "Regulador/Operador",
+      "rol": "Regula y administra La Aurora y Mundo Maya",
+      "url_oficial": "",
+      "pais": "Guatemala",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "gt-guatecompras": {
+      "id": "gt-guatecompras",
+      "ente": "Guatecompras",
+      "nombre_completo": "Sistema de Contrataciones del Estado",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Guatemala",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "hn-ahac": {
+      "id": "hn-ahac",
+      "ente": "AHAC",
+      "nombre_completo": "Agencia Hondureña de Aeronáutica Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "Honduras",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "VERIFICAR sigla/nombre vigente"
+    },
+    "hn-sit": {
+      "id": "hn-sit",
+      "ente": "SIT",
+      "nombre_completo": "Secretaría de Infraestructura y Transporte",
+      "tipo": "Ministerio",
+      "rol": "Define inversión en infraestructura aeroportuaria",
+      "url_oficial": "",
+      "pais": "Honduras",
+      "verticales": [
+        "airports",
+        "roads"
+      ],
+      "verificar": "NO"
+    },
+    "hn-palmerola": {
+      "id": "hn-palmerola",
+      "ente": "Palmerola Int. Airport",
+      "nombre_completo": "Palmerola International Airport",
+      "tipo": "Operador",
+      "rol": "Concesionario del aeropuerto de Palmerola (XPL)",
+      "url_oficial": "",
+      "pais": "Honduras",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "VERIFICAR rol/concesionario actual"
+    },
+    "hn-honducompras": {
+      "id": "hn-honducompras",
+      "ente": "HonduCompras",
+      "nombre_completo": "Sistema de Compras del Estado",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Honduras",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cr-dgac": {
+      "id": "cr-dgac",
+      "ente": "DGAC",
+      "nombre_completo": "Dirección General de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "Costa Rica",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cr-cetac": {
+      "id": "cr-cetac",
+      "ente": "CETAC",
+      "nombre_completo": "Consejo Técnico de Aviación Civil",
+      "tipo": "Concedente",
+      "rol": "Órgano que decide y supervisa las concesiones aeroportuarias",
+      "url_oficial": "",
+      "pais": "Costa Rica",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cr-aeris": {
+      "id": "cr-aeris",
+      "ente": "AERIS",
+      "nombre_completo": "AERIS Holding Costa Rica",
+      "tipo": "Operador",
+      "rol": "Gestor interesado del Aeropuerto Juan Santamaría (SJO)",
+      "url_oficial": "",
+      "pais": "Costa Rica",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cr-sicop": {
+      "id": "cr-sicop",
+      "ente": "SICOP",
+      "nombre_completo": "Sistema Integrado de Compras Públicas",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Costa Rica",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ec-dgac": {
+      "id": "ec-dgac",
+      "ente": "DGAC",
+      "nombre_completo": "Dirección General de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "Ecuador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ec-quiport": {
+      "id": "ec-quiport",
+      "ente": "Quiport",
+      "nombre_completo": "Corporación Quiport S.A.",
+      "tipo": "Operador",
+      "rol": "Concesionario del Aeropuerto de Quito (UIO)",
+      "url_oficial": "",
+      "pais": "Ecuador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ec-sercop": {
+      "id": "ec-sercop",
+      "ente": "SERCOP",
+      "nombre_completo": "Servicio Nacional de Contratación Pública",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Ecuador",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "mx-afac": {
+      "id": "mx-afac",
+      "ente": "AFAC",
+      "nombre_completo": "Agencia Federal de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico (ex DGAC México)",
+      "url_oficial": "",
+      "pais": "México",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "mx-asa": {
+      "id": "mx-asa",
+      "ente": "ASA",
+      "nombre_completo": "Aeropuertos y Servicios Auxiliares",
+      "tipo": "Operador",
+      "rol": "Operador estatal de aeropuertos y combustible de aviación",
+      "url_oficial": "",
+      "pais": "México",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "mx-sict": {
+      "id": "mx-sict",
+      "ente": "SICT",
+      "nombre_completo": "Secretaría de Infraestructura Comunicaciones y Transportes",
+      "tipo": "Ministerio",
+      "rol": "Define política e inversión aeroportuaria federal",
+      "url_oficial": "",
+      "pais": "México",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "mx-gacm": {
+      "id": "mx-gacm",
+      "ente": "GACM",
+      "nombre_completo": "Grupo Aeroportuario de la Ciudad de México",
+      "tipo": "Operador",
+      "rol": "Desarrolla proyectos aeroportuarios del Valle de México (AIFA)",
+      "url_oficial": "",
+      "pais": "México",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "VERIFICAR vigencia/funciones actuales"
+    },
+    "mx-compranet": {
+      "id": "mx-compranet",
+      "ente": "CompraNet",
+      "nombre_completo": "Sistema de Contrataciones Gubernamentales",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "México",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "bo-dgac": {
+      "id": "bo-dgac",
+      "ente": "DGAC",
+      "nombre_completo": "Dirección General de Aeronáutica Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "Bolivia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "bo-aasana": {
+      "id": "bo-aasana",
+      "ente": "AASANA",
+      "nombre_completo": "Administración de Aeropuertos y Servicios Auxiliares a la Navegación Aérea",
+      "tipo": "Operador",
+      "rol": "Navegación aérea y administración aeroportuaria",
+      "url_oficial": "",
+      "pais": "Bolivia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "bo-sabsa": {
+      "id": "bo-sabsa",
+      "ente": "SABSA",
+      "nombre_completo": "Servicios de Aeropuertos Bolivianos S.A.",
+      "tipo": "Operador",
+      "rol": "Operador de los 3 aeropuertos internacionales principales",
+      "url_oficial": "",
+      "pais": "Bolivia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "bo-mopsv": {
+      "id": "bo-mopsv",
+      "ente": "MOPSV",
+      "nombre_completo": "Ministerio de Obras Públicas Servicios y Vivienda",
+      "tipo": "Ministerio",
+      "rol": "Define inversión en infraestructura",
+      "url_oficial": "",
+      "pais": "Bolivia",
+      "verticales": [
+        "airports",
+        "roads"
+      ],
+      "verificar": "NO"
+    },
+    "bo-sicoes": {
+      "id": "bo-sicoes",
+      "ente": "SICOES",
+      "nombre_completo": "Sistema de Contrataciones Estatales",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Bolivia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cl-dgac": {
+      "id": "cl-dgac",
+      "ente": "DGAC",
+      "nombre_completo": "Dirección General de Aeronáutica Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico y navegación aérea",
+      "url_oficial": "",
+      "pais": "Chile",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cl-dap-mop": {
+      "id": "cl-dap-mop",
+      "ente": "DAP (MOP)",
+      "nombre_completo": "Dirección de Aeropuertos del MOP",
+      "tipo": "Operador/Licitante",
+      "rol": "Planifica y licita la infraestructura aeroportuaria pública",
+      "url_oficial": "",
+      "pais": "Chile",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cl-dgc-mop": {
+      "id": "cl-dgc-mop",
+      "ente": "DGC (MOP)",
+      "nombre_completo": "Dirección General de Concesiones del MOP",
+      "tipo": "Concedente",
+      "rol": "Estructura y adjudica las concesiones aeroportuarias",
+      "url_oficial": "",
+      "pais": "Chile",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "cl-chilecompra": {
+      "id": "cl-chilecompra",
+      "ente": "ChileCompra",
+      "nombre_completo": "Mercado Público",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Chile",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ar-anac": {
+      "id": "ar-anac",
+      "ente": "ANAC",
+      "nombre_completo": "Administración Nacional de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico",
+      "url_oficial": "",
+      "pais": "Argentina",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ar-orsna": {
+      "id": "ar-orsna",
+      "ente": "ORSNA",
+      "nombre_completo": "Organismo Regulador del Sistema Nacional de Aeropuertos",
+      "tipo": "Regulador económico",
+      "rol": "Regula concesiones y obras del sistema aeroportuario",
+      "url_oficial": "",
+      "pais": "Argentina",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ar-aa2000": {
+      "id": "ar-aa2000",
+      "ente": "AA2000",
+      "nombre_completo": "Aeropuertos Argentina 2000",
+      "tipo": "Operador",
+      "rol": "Concesionario principal de la red de aeropuertos",
+      "url_oficial": "",
+      "pais": "Argentina",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ar-comprar": {
+      "id": "ar-comprar",
+      "ente": "COMPR.AR",
+      "nombre_completo": "Sistema Electrónico de Contrataciones",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Argentina",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "pe-dgac": {
+      "id": "pe-dgac",
+      "ente": "DGAC (MTC)",
+      "nombre_completo": "Dirección General de Aeronáutica Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador aeronáutico bajo el MTC",
+      "url_oficial": "",
+      "pais": "Perú",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "pe-corpac": {
+      "id": "pe-corpac",
+      "ente": "CORPAC",
+      "nombre_completo": "Corporación Peruana de Aeropuertos y Aviación Comercial",
+      "tipo": "Operador",
+      "rol": "Operador estatal y navegación aérea",
+      "url_oficial": "",
+      "pais": "Perú",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "pe-ositran": {
+      "id": "pe-ositran",
+      "ente": "OSITRAN",
+      "nombre_completo": "Organismo Supervisor de la Inversión en Infraestructura de Transporte de Uso Público",
+      "tipo": "Regulador concesiones",
+      "rol": "Supervisa concesiones aeroportuarias (y viales)",
+      "url_oficial": "",
+      "pais": "Perú",
+      "verticales": [
+        "airports",
+        "roads"
+      ],
+      "verificar": "NO"
+    },
+    "pe-proinversion": {
+      "id": "pe-proinversion",
+      "ente": "ProInversión",
+      "nombre_completo": "Agencia de Promoción de la Inversión Privada",
+      "tipo": "Concedente/APP",
+      "rol": "Estructura y adjudica APP aeroportuarias",
+      "url_oficial": "",
+      "pais": "Perú",
+      "verticales": [
+        "airports",
+        "roads"
+      ],
+      "verificar": "NO"
+    },
+    "pe-seace": {
+      "id": "pe-seace",
+      "ente": "SEACE",
+      "nombre_completo": "Sistema Electrónico de Contrataciones del Estado",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Perú",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "co-aerocivil": {
+      "id": "co-aerocivil",
+      "ente": "Aerocivil",
+      "nombre_completo": "Unidad Administrativa Especial de Aeronáutica Civil",
+      "tipo": "Regulador/Operador",
+      "rol": "Regula y administra/financia gran parte de la red aeroportuaria",
+      "url_oficial": "",
+      "pais": "Colombia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "co-ani": {
+      "id": "co-ani",
+      "ente": "ANI",
+      "nombre_completo": "Agencia Nacional de Infraestructura",
+      "tipo": "Concedente",
+      "rol": "Estructura y adjudica concesiones aeroportuarias (y viales)",
+      "url_oficial": "",
+      "pais": "Colombia",
+      "verticales": [
+        "airports",
+        "roads"
+      ],
+      "verificar": "NO"
+    },
+    "co-secop": {
+      "id": "co-secop",
+      "ente": "SECOP",
+      "nombre_completo": "Sistema Electrónico de Contratación Pública",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Colombia",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "do-idac": {
+      "id": "do-idac",
+      "ente": "IDAC",
+      "nombre_completo": "Instituto Dominicano de Aviación Civil",
+      "tipo": "Regulador",
+      "rol": "Regulador técnico aeronáutico",
+      "url_oficial": "",
+      "pais": "Rep. Dominicana",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "do-jac": {
+      "id": "do-jac",
+      "ente": "JAC",
+      "nombre_completo": "Junta de Aviación Civil",
+      "tipo": "Concedente/Política",
+      "rol": "Define política y otorga concesiones aéreas",
+      "url_oficial": "",
+      "pais": "Rep. Dominicana",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "do-aerodom": {
+      "id": "do-aerodom",
+      "ente": "Aerodom",
+      "nombre_completo": "Aeropuertos Dominicanos Siglo XXI",
+      "tipo": "Operador",
+      "rol": "Concesionario de varios aeropuertos (grupo Vinci)",
+      "url_oficial": "",
+      "pais": "Rep. Dominicana",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "do-comprasrd": {
+      "id": "do-comprasrd",
+      "ente": "Compras Dominicana",
+      "nombre_completo": "Portal Transaccional de Compras Públicas",
+      "tipo": "Portal compras",
+      "rol": "Portal de licitaciones",
+      "url_oficial": "",
+      "pais": "Rep. Dominicana",
+      "verticales": [
+        "airports"
+      ],
+      "verificar": "NO"
+    },
+    "ml-bid": {
+      "id": "ml-bid",
+      "ente": "BID",
+      "nombre_completo": "Banco Interamericano de Desarrollo",
+      "tipo": "Multilateral",
+      "rol": "Financia proyectos de infraestructura en LATAM",
+      "url_oficial": "",
+      "pais": "Regional",
+      "verticales": [
+        "airports",
+        "roads",
+        "rail",
+        "agua"
+      ],
+      "verificar": "NO"
+    },
+    "ml-bm": {
+      "id": "ml-bm",
+      "ente": "Banco Mundial",
+      "nombre_completo": "Banco Mundial",
+      "tipo": "Multilateral",
+      "rol": "Financia proyectos de infraestructura",
+      "url_oficial": "",
+      "pais": "Regional",
+      "verticales": [
+        "airports",
+        "roads",
+        "rail",
+        "agua"
+      ],
+      "verificar": "NO"
+    },
+    "ml-caf": {
+      "id": "ml-caf",
+      "ente": "CAF",
+      "nombre_completo": "Banco de Desarrollo de América Latina y el Caribe",
+      "tipo": "Multilateral",
+      "rol": "Financia proyectos de infraestructura",
+      "url_oficial": "",
+      "pais": "Regional",
+      "verticales": [
+        "airports",
+        "roads",
+        "rail",
+        "agua"
+      ],
+      "verificar": "NO"
+    },
+    "ml-fonplata": {
+      "id": "ml-fonplata",
+      "ente": "Fonplata",
+      "nombre_completo": "Fondo Financiero para el Desarrollo de la Cuenca del Plata",
+      "tipo": "Multilateral",
+      "rol": "Financia proyectos en la cuenca del Plata",
+      "url_oficial": "",
+      "pais": "Regional",
+      "verticales": [
+        "airports",
+        "roads",
+        "rail",
+        "agua"
+      ],
+      "verificar": "NO"
+    }
+  }
+}
