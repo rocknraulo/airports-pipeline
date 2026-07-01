@@ -90,6 +90,40 @@ p {
   pointer-events: none;
 }
 .dash-link .arrow { font-size: 20px; }
+.autoridades-band {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
+  padding: 18px 20px;
+  background: rgba(245, 197, 108, 0.04);
+  border: 1px dashed rgba(245, 197, 108, 0.45);
+  border-radius: 12px;
+  text-decoration: none;
+  text-align: left;
+  transition: all 0.2s;
+}
+.autoridades-band:hover {
+  background: rgba(245, 197, 108, 0.09);
+  transform: translateY(-2px);
+}
+.autoridades-band .ab-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: #FFD685;
+}
+.autoridades-band .ab-sub {
+  font-size: 12px;
+  color: #6B7388;
+}
+.autoridades-band .ab-cta {
+  font-size: 13px;
+  font-weight: 500;
+  color: #F5C56C;
+  white-space: nowrap;
+}
 .footer {
   margin-top: 32px;
   padding-top: 24px;
@@ -123,6 +157,13 @@ p {
       <span class="arrow">·</span>
     </a>
   </div>
+  <a href="/autoridades" class="autoridades-band">
+    <span style="display:flex; flex-direction:column; gap:2px;">
+      <span class="ab-title">Autoridades</span>
+      <span class="ab-sub">Entes que deciden, operan y conceden — transversal a las 4 verticales</span>
+    </span>
+    <span class="ab-cta">Ver →</span>
+  </a>
   <div class="footer">
     Contacto: <a href="mailto:rd@rauldutra.com">rd@rauldutra.com</a>
   </div>
