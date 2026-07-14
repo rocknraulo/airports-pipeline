@@ -493,6 +493,378 @@ html, body {
 
 /* GATE */
 #gate { font-family: 'Geist', sans-serif; }
+
+/* ===================== TIMELINE DE MANDATOS ===================== */
+.tl {
+  background: var(--bg-glass);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px 16px;
+  margin-bottom: 20px;
+}
+
+.tl-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.tl-title {
+  font-family: 'Fraunces', Georgia, serif;
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--text-primary);
+}
+
+.tl-title em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.tl-today {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.tl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tl-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tl-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+}
+
+.tl-pais {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+}
+
+.tl-pres {
+  font-size: 12px;
+  color: var(--text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- la barra --- */
+.tl-track {
+  position: relative;
+  height: 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border);
+}
+
+.tl-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  opacity: 0.85;
+}
+
+/* Venezuela: sin fecha de fin declarada → barra rayada, sin progreso */
+.tl-track--sinfin {
+  background: repeating-linear-gradient(
+    -45deg,
+    rgba(226, 123, 123, 0.18) 0 6px,
+    rgba(226, 123, 123, 0.04) 6px 12px
+  );
+  border-color: rgba(226, 123, 123, 0.3);
+}
+
+/* mandato que todavía no arrancó (hoy < inicio) */
+.tl-track--futuro {
+  opacity: 0.55;
+}
+
+/* punto HOY */
+.tl-now {
+  position: absolute;
+  top: 50%;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--accent-bright);
+  border: 2px solid var(--bg-primary);
+  box-shadow: 0 0 0 1px var(--accent-bright), 0 0 10px rgba(245, 197, 108, 0.6);
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+/* punto de próxima elección */
+.tl-elec {
+  position: absolute;
+  top: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.tl-elec--confirmada {
+  background: var(--text-primary);
+  border: 1px solid var(--bg-primary);
+}
+
+.tl-elec--estimada {
+  background: transparent;
+  border: 1px dashed var(--text-secondary);
+  opacity: 0.75;
+}
+
+/* --- fila inferior: restante + chip + info --- */
+.tl-foot {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tl-rest {
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.tl-rest--sinfin {
+  color: var(--rose);
+}
+
+.tl-chip {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+
+/* tono por situación del presidente en ejercicio */
+.tl-chip--puede {
+  color: #7FE3D4;
+  background: rgba(93, 211, 197, 0.1);
+  border-color: rgba(93, 211, 197, 0.35);
+}
+
+.tl-chip--ultimo {
+  color: var(--accent);
+  background: rgba(245, 197, 108, 0.08);
+  border-color: rgba(245, 197, 108, 0.3);
+}
+
+.tl-chip--nocons {
+  color: var(--text-secondary);
+  background: rgba(155, 163, 183, 0.08);
+  border-color: rgba(155, 163, 183, 0.25);
+}
+
+.tl-chip--indef {
+  color: var(--rose);
+  background: rgba(226, 123, 123, 0.1);
+  border-color: rgba(226, 123, 123, 0.35);
+}
+
+.tl-chip--interino {
+  color: var(--rose);
+  background: rgba(226, 123, 123, 0.14);
+  border-color: rgba(226, 123, 123, 0.5);
+  border-style: dashed;
+}
+
+.tl-chip--sindir {
+  color: var(--text-muted);
+  background: rgba(107, 115, 136, 0.1);
+  border-color: rgba(107, 115, 136, 0.35);
+  border-style: dashed;
+}
+
+.tl-info {
+  margin-left: auto;
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--text-muted);
+  font-family: 'Fraunces', Georgia, serif;
+  font-style: italic;
+  font-size: 12px;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tl-info:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: rgba(245, 197, 108, 0.08);
+}
+
+/* --- leyenda + botón de expandir --- */
+.tl-legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+.tl-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tl-key {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.tl-key--now {
+  background: var(--accent-bright);
+  box-shadow: 0 0 0 1px var(--accent-bright);
+}
+
+.tl-key--conf {
+  background: var(--text-primary);
+}
+
+.tl-key--est {
+  border: 1px dashed var(--text-secondary);
+}
+
+.tl-more {
+  width: 100%;
+  margin-top: 14px;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid rgba(245, 197, 108, 0.3);
+  background: rgba(245, 197, 108, 0.06);
+  color: var(--accent-bright);
+  font-family: 'Geist', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tl-more:hover {
+  background: rgba(245, 197, 108, 0.14);
+}
+
+/* --- bloques extra dentro del drawer reutilizado --- */
+.tl-dr-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+}
+
+.tl-dr-row dt {
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.tl-dr-row dd {
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.tl-dr-notas {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: rgba(245, 197, 108, 0.05);
+  border: 1px solid rgba(245, 197, 108, 0.18);
+  color: var(--text-secondary);
+  font-size: 13px;
+  line-height: 1.55;
+}
+
+.tl-dr-fuentes {
+  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tl-dr-verificado {
+  margin-top: 16px;
+  font-family: 'Geist Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+@media (min-width: 768px) {
+  .tl { padding: 24px 28px; }
+  .tl-title { font-size: 22px; }
+
+  /* en desktop cada fila es una grilla de 3 columnas */
+  .tl-row {
+    display: grid;
+    grid-template-columns: 210px 1fr auto;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .tl-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1px;
+  }
+
+  .tl-foot {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+  }
+
+  .tl-rest {
+    min-width: 96px;
+    text-align: right;
+  }
+
+  .tl-chip { min-width: 132px; text-align: center; }
+
+  .tl-info { margin-left: 4px; }
+}
 </style>
 </head>
 <body>
@@ -508,6 +880,8 @@ html, body {
     <h1>Quién <em>decide</em> en cada país</h1>
     <p class="hero-sub">Mapa de organismos que regulan, operan, conceden y compran infraestructura en LATAM. Elegí una vertical, después un país, después un ente.</p>
   </header>
+
+  <section class="tl" id="tl"></section>
 
   <div class="vertical-tabs" id="vertical-tabs"></div>
   <div class="country-chips" id="country-chips"></div>
@@ -633,6 +1007,335 @@ html, body {
     "ml-fonplata": {"id":"ml-fonplata","ente":"Fonplata","nombre_completo":"Fondo Financiero para el Desarrollo de la Cuenca del Plata","tipo":"Multilateral","rol":"Financia proyectos en la cuenca del Plata","url_oficial":"","pais":"Regional","verticales":["airports","roads","rail","agua"],"verificar":"NO"}
   }
 }
+</script>
+
+<!-- DATA EMBEBIDA (copia inline de autoridades_mandatos_LATAM.json) -->
+<script type="application/json" id="mandatos-data">
+[
+  {
+    "orden": 1,
+    "pais": "Brasil",
+    "poblacion": 213,
+    "presidente": "Luiz Inácio Lula da Silva",
+    "inicio": "2023-01-01",
+    "fin": "2027-01-01",
+    "eleccion": "2026-10-04",
+    "eleccionConfirmada": "SI",
+    "reeleccion": "Reelección posible",
+    "puedeSeguir": "Puede reelegirse",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Elección presidencial en octubre 2026; en su primer mandato del ciclo actual, puede buscar la reelección consecutiva",
+    "fuenteMandato": "https://www.tse.jus.br/",
+    "fuenteReeleccion": "https://www.planalto.gov.br/ccivil_03/constituicao/constituicao.htm"
+  },
+  {
+    "orden": 2,
+    "pais": "México",
+    "poblacion": 130,
+    "presidente": "Claudia Sheinbaum",
+    "inicio": "2024-10-01",
+    "fin": "2030-10-01",
+    "eleccion": "2030-06",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Prohibición absoluta de reelección presidencial (art. 83). Mandato único de 6 años",
+    "fuenteMandato": "https://www.ine.mx/",
+    "fuenteReeleccion": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf"
+  },
+  {
+    "orden": 3,
+    "pais": "Colombia",
+    "poblacion": 53,
+    "presidente": "Abelardo de la Espriella",
+    "inicio": "2026-08-07",
+    "fin": "2030-08-07",
+    "eleccion": "2030-05",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Electo en 2a vuelta (21-jun-2026, el balotaje más ajustado de la historia); asume el 7-ago-2026 por el período 2026-2030, sucediendo a Gustavo Petro. Colombia prohíbe la reelección: mandato único",
+    "fuenteMandato": "https://idm.presidencia.gov.co/",
+    "fuenteReeleccion": "https://www.suin-juriscol.gov.co/"
+  },
+  {
+    "orden": 4,
+    "pais": "Argentina",
+    "poblacion": 46,
+    "presidente": "Javier Milei",
+    "inicio": "2023-12-10",
+    "fin": "2027-12-10",
+    "eleccion": "2027-10",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Reelección posible",
+    "puedeSeguir": "Puede reelegirse",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "En su primer mandato; puede buscar una reelección consecutiva en 2027",
+    "fuenteMandato": "https://www.argentina.gob.ar/",
+    "fuenteReeleccion": "https://www.argentina.gob.ar/normativa/nacional/constitucion-nacional-804/texto"
+  },
+  {
+    "orden": 5,
+    "pais": "Perú",
+    "poblacion": 34,
+    "presidente": "Keiko Fujimori",
+    "inicio": "2026-07-28",
+    "fin": "2031-07-28",
+    "eleccion": "2031-04",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No consecutiva",
+    "puedeSeguir": "Sin reelección inmediata",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Electa en 2a vuelta (jun-2026); asume el 28-jul-2026 por el período 2026-2031, tras el interinato de transición de José María Balcázar. No puede reelegirse de forma inmediata (art. 112), pero podría volver pasado un período",
+    "fuenteMandato": "https://elperuano.pe/",
+    "fuenteReeleccion": "https://www.congreso.gob.pe/"
+  },
+  {
+    "orden": 6,
+    "pais": "Chile",
+    "poblacion": 20,
+    "presidente": "José Antonio Kast",
+    "inicio": "2026-03-11",
+    "fin": "2030-03-11",
+    "eleccion": "2029-11",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No consecutiva",
+    "puedeSeguir": "Sin reelección inmediata",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Asumió 11-mar-2026 tras ganar el balotaje del 14-dic-2025. No puede reelegirse de forma inmediata, pero podría volver pasado un período",
+    "fuenteMandato": "https://www.servel.cl/",
+    "fuenteReeleccion": "https://www.bcn.cl/"
+  },
+  {
+    "orden": 7,
+    "pais": "Ecuador",
+    "poblacion": 18.3,
+    "presidente": "Daniel Noboa",
+    "inicio": "2025-05-24",
+    "fin": "2029-05-24",
+    "eleccion": "2029-02",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Reelección posible",
+    "puedeSeguir": "Puede reelegirse",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Su período corto 2023-2025 (completó el mandato de Lasso tras la muerte cruzada) NO cuenta para el límite; este es su primer período completo, por lo que puede buscar la reelección en 2029",
+    "fuenteMandato": "https://www.cne.gob.ec/",
+    "fuenteReeleccion": "https://www.cne.gob.ec/"
+  },
+  {
+    "orden": 8,
+    "pais": "Guatemala",
+    "poblacion": 17.8,
+    "presidente": "Bernardo Arévalo",
+    "inicio": "2024-01-14",
+    "fin": "2028-01-14",
+    "eleccion": "2027-06",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Prohibición absoluta de reelección. Mandato único",
+    "fuenteMandato": "https://www.tse.org.gt/",
+    "fuenteReeleccion": "https://www.oas.org/juridico/mla/es/gt/es_gt-int-text-const.pdf"
+  },
+  {
+    "orden": 9,
+    "pais": "Bolivia",
+    "poblacion": 12.4,
+    "presidente": "Rodrigo Paz",
+    "inicio": "2025-11-08",
+    "fin": "2030-11-08",
+    "eleccion": "2030-08",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Reelección posible",
+    "puedeSeguir": "Puede reelegirse",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Asumió 8-nov-2025 tras ganar el balotaje del 19-oct; fin del ciclo MAS. En su primer mandato, puede buscar una reelección (art. 168)",
+    "fuenteMandato": "https://www.oep.org.bo/",
+    "fuenteReeleccion": "https://www.oep.org.bo/"
+  },
+  {
+    "orden": 10,
+    "pais": "República Dominicana",
+    "poblacion": 11.4,
+    "presidente": "Luis Abinader",
+    "inicio": "2024-08-16",
+    "fin": "2028-08-16",
+    "eleccion": "2028-05",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Reelección posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Segundo y último mandato: aunque la regla permite una reelección, ya la agotó. La reforma constitucional de 2024 (cláusula pétrea) lo inhabilita explícitamente para postularse de nuevo tras 2028",
+    "fuenteMandato": "https://jce.gob.do/",
+    "fuenteReeleccion": "https://jce.gob.do/"
+  },
+  {
+    "orden": 11,
+    "pais": "Honduras",
+    "poblacion": 10.6,
+    "presidente": "Nasry Asfura",
+    "inicio": "2026-01-27",
+    "fin": "2030-01-27",
+    "eleccion": "2029-11",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Asumió 27-ene-2026. La Constitución prohíbe la reelección (art. 239); una polémica sentencia de 2015 la habilitó de facto. Mandato único",
+    "fuenteMandato": "https://www.cne.hn/",
+    "fuenteReeleccion": "https://www.tsc.gob.hn/web/leyes/Constitucion_de_la_republica.pdf"
+  },
+  {
+    "orden": 12,
+    "pais": "Paraguay",
+    "poblacion": 7.5,
+    "presidente": "Santiago Peña",
+    "inicio": "2023-08-15",
+    "fin": "2028-08-15",
+    "eleccion": "2028-04",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No posible",
+    "puedeSeguir": "Último mandato",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Prohibición absoluta de reelección. Mandato único",
+    "fuenteMandato": "https://tsje.gov.py/",
+    "fuenteReeleccion": "https://www.bacn.gov.py/"
+  },
+  {
+    "orden": 13,
+    "pais": "Costa Rica",
+    "poblacion": 5.2,
+    "presidente": "Laura Fernández Delgado",
+    "inicio": "2026-05-08",
+    "fin": "2030-05-08",
+    "eleccion": "2030-02",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No consecutiva",
+    "puedeSeguir": "Sin reelección inmediata",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Asumió may-2026. No puede reelegirse de forma inmediata, pero podría volver pasados dos períodos",
+    "fuenteMandato": "https://www.tse.go.cr/",
+    "fuenteReeleccion": "https://www.tse.go.cr/pdf/normativa/constitucion.pdf"
+  },
+  {
+    "orden": 14,
+    "pais": "Panamá",
+    "poblacion": 4.5,
+    "presidente": "José Raúl Mulino",
+    "inicio": "2024-07-01",
+    "fin": "2029-07-01",
+    "eleccion": "2029-05",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No consecutiva",
+    "puedeSeguir": "Sin reelección inmediata",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "No puede reelegirse de forma inmediata, pero podría volver pasado un período",
+    "fuenteMandato": "https://www.tribunal-electoral.gob.pa/",
+    "fuenteReeleccion": "https://www.asamblea.gob.pa/"
+  },
+  {
+    "orden": 15,
+    "pais": "Uruguay",
+    "poblacion": 3.4,
+    "presidente": "Yamandú Orsi",
+    "inicio": "2025-03-01",
+    "fin": "2030-03-01",
+    "eleccion": "2029-10",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "No consecutiva",
+    "puedeSeguir": "Sin reelección inmediata",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Asumió mar-2025 (retorno del Frente Amplio). No puede reelegirse de forma inmediata, pero podría volver pasado un período",
+    "fuenteMandato": "https://www.corteelectoral.gub.uy/",
+    "fuenteReeleccion": "https://www.impo.com.uy/"
+  },
+  {
+    "orden": 16,
+    "pais": "Venezuela",
+    "poblacion": 28,
+    "presidente": "Delcy Rodríguez",
+    "inicio": "2026-01-05",
+    "fin": null,
+    "eleccion": null,
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Indefinida",
+    "puedeSeguir": "Interino / irregular",
+    "estado": "Interino",
+    "verificado": "2026-07-14",
+    "notas": "CASO DISPUTADO E INESTABLE: asumió como interina el 5-ene-2026 tras la captura de Nicolás Maduro por EE.UU. (3-ene). Designación de la Corte Suprema por falta temporal (90 días / hasta 6 meses); vigencia y legitimidad en disputa. Fecha de elección incierta",
+    "fuenteMandato": "https://www.tsj.gob.ve/",
+    "fuenteReeleccion": "https://www.oas.org/juridico/mla/es/ven/es_ven-int-text-const.pdf"
+  },
+  {
+    "orden": 17,
+    "pais": "Cuba",
+    "poblacion": 11,
+    "presidente": "Miguel Díaz-Canel",
+    "inicio": "2023-04-19",
+    "fin": "2028-04-19",
+    "eleccion": "2028-04",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Indefinida",
+    "puedeSeguir": "Sin elección directa",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Sin elección presidencial directa (lo elige la Asamblea Nacional). La Constitución de 2019 fija un tope de 2 mandatos de 5 años pero no hay competencia electoral real",
+    "fuenteMandato": "https://www.parlamentocubano.gob.cu/",
+    "fuenteReeleccion": "https://www.parlamentocubano.gob.cu/"
+  },
+  {
+    "orden": 18,
+    "pais": "Nicaragua",
+    "poblacion": 7,
+    "presidente": "Daniel Ortega",
+    "inicio": "2022-01-10",
+    "fin": "2027-01-10",
+    "eleccion": "2026-11",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Indefinida",
+    "puedeSeguir": "Reelección indefinida",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Reelección indefinida; comicios cuestionados como no competitivos por observadores internacionales",
+    "fuenteMandato": "https://www.cse.gob.ni/",
+    "fuenteReeleccion": "https://www.asamblea.gob.ni/"
+  },
+  {
+    "orden": 19,
+    "pais": "El Salvador",
+    "poblacion": 6.4,
+    "presidente": "Nayib Bukele",
+    "inicio": "2024-06-01",
+    "fin": "2027-06-01",
+    "eleccion": "2027-02",
+    "eleccionConfirmada": "NO",
+    "reeleccion": "Indefinida",
+    "puedeSeguir": "Reelección indefinida",
+    "estado": "Estable",
+    "verificado": "2026-07-14",
+    "notas": "Reforma exprés del 31-jul-2025: reelección indefinida, mandato de 5 a 6 años, sin balotaje, período actual acortado a jun-2027. Bukele ya es candidato a un tercer mandato",
+    "fuenteMandato": "https://www.tse.gob.sv/",
+    "fuenteReeleccion": "https://www.asamblea.gob.sv/"
+  }
+]
 </script>
 
 <script>
@@ -812,6 +1515,244 @@ function init() {
 }
 
 init();
+
+// ============ TIMELINE DE MANDATOS ============
+const MANDATOS = JSON.parse(document.getElementById('mandatos-data').textContent);
+
+const TL_PREVIEW = 6;
+const TL_DIA = 86400000;
+const TL_MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+
+const tlState = { expandido: false };
+
+// Fechas fijadas a mediodía UTC: así el huso del navegador no corre el día.
+function tlFecha(s) {
+  if (!s) return null;
+  const p = String(s).split('-').map(Number);
+  if (!p[0] || !p[1]) return null;
+  return new Date(Date.UTC(p[0], p[1] - 1, p[2] || 1, 12));
+}
+
+function tlHoy() {
+  const d = new Date();
+  return new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate(), 12));
+}
+
+function tlFechaLarga(d) {
+  return d.getUTCDate() + ' ' + TL_MESES[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+}
+
+// 'AAAA-MM' no tiene día: mostrarlo como "oct 2030" y no inventar un "1 oct".
+function tlFechaElec(raw, d) {
+  return String(raw).length === 7
+    ? TL_MESES[d.getUTCMonth()] + ' ' + d.getUTCFullYear()
+    : tlFechaLarga(d);
+}
+
+function tlDias(desde, hasta) {
+  return Math.round((hasta - desde) / TL_DIA);
+}
+
+function tlMeses(desde, hasta) {
+  let m = (hasta.getUTCFullYear() - desde.getUTCFullYear()) * 12
+        + (hasta.getUTCMonth() - desde.getUTCMonth());
+  if (hasta.getUTCDate() < desde.getUTCDate()) m--;
+  return m;
+}
+
+function tlPlural(n, sing, plur) {
+  return n + ' ' + (Math.abs(n) === 1 ? sing : plur);
+}
+
+const TL_CHIP_CLASE = {
+  'Puede reelegirse':         'tl-chip--puede',
+  'Último mandato':           'tl-chip--ultimo',
+  'Sin reelección inmediata': 'tl-chip--nocons',
+  'Reelección indefinida':    'tl-chip--indef',
+  'Interino / irregular':     'tl-chip--interino',
+  'Sin elección directa':     'tl-chip--sindir'
+};
+
+// Todo lo posicional se deriva de la fecha del navegador, en cada carga.
+function tlCalcular(m, hoy) {
+  const inicio = tlFecha(m.inicio);
+  const fin = tlFecha(m.fin);
+  const eleccion = tlFecha(m.eleccion);
+  const r = {
+    inicio, fin, eleccion,
+    sinFin: !fin, futuro: false,
+    progreso: 0, elecPct: null, restante: ''
+  };
+
+  if (!inicio || !fin) {
+    r.restante = 'sin fecha de fin';
+    return r;
+  }
+
+  const span = fin - inicio;
+  const crudo = (hoy - inicio) / span;
+  r.futuro = crudo < 0;                   // todavía no asumió
+  r.progreso = Math.max(0, Math.min(1, crudo));
+
+  if (r.futuro) {
+    r.restante = 'asume en ' + tlPlural(tlDias(hoy, inicio), 'día', 'días');
+  } else if (crudo >= 1) {
+    r.restante = 'mandato cumplido';
+  } else {
+    const meses = tlMeses(hoy, fin);
+    r.restante = meses >= 1
+      ? tlPlural(meses, 'mes', 'meses') + ' restantes'
+      : tlPlural(tlDias(hoy, fin), 'día', 'días') + ' restantes';
+  }
+
+  if (eleccion) {
+    const p = (eleccion - inicio) / span;
+    if (p >= 0 && p <= 1) r.elecPct = p * 100;
+  }
+  return r;
+}
+
+function tlFila(m, hoy) {
+  const c = tlCalcular(m, hoy);
+  const confirmada = m.eleccionConfirmada === 'SI';
+  const pct = (c.progreso * 100).toFixed(2);
+
+  let marcas = '';
+  if (!c.sinFin) {
+    marcas += `<div class="tl-fill" style="width:${pct}%"></div>`;
+    if (c.elecPct !== null) {
+      const clase = confirmada ? 'tl-elec--confirmada' : 'tl-elec--estimada';
+      const txt = 'Elección: ' + tlFechaElec(m.eleccion, c.eleccion)
+                + (confirmada ? ' (confirmada)' : ' (estimada)');
+      // Solo la posición visual: elecciones muy al final (Cuba, 99%) quedarían
+      // montadas sobre el borde redondeado de la barra.
+      const left = Math.min(98, Math.max(2, c.elecPct));
+      marcas += `<div class="tl-elec ${clase}" style="left:${left.toFixed(2)}%" title="${esc(txt)}"></div>`;
+    }
+    if (!c.futuro) {
+      marcas += `<div class="tl-now" style="left:${pct}%" title="Hoy · ${esc(tlFechaLarga(hoy))}"></div>`;
+    }
+  }
+
+  const trackClase = 'tl-track'
+    + (c.sinFin ? ' tl-track--sinfin' : '')
+    + (c.futuro ? ' tl-track--futuro' : '');
+
+  const rango = c.sinFin
+    ? tlFechaLarga(c.inicio) + ' → sin fin declarado'
+    : tlFechaLarga(c.inicio) + ' → ' + tlFechaLarga(c.fin);
+
+  const row = document.createElement('div');
+  row.className = 'tl-row';
+  row.innerHTML = `
+    <div class="tl-meta">
+      <div class="tl-pais">${esc(m.pais)}</div>
+      <div class="tl-pres">${esc(m.presidente)}</div>
+    </div>
+    <div class="${trackClase}" title="${esc(rango)}">${marcas}</div>
+    <div class="tl-foot">
+      <span class="tl-rest${c.sinFin ? ' tl-rest--sinfin' : ''}">${esc(c.restante)}</span>
+      <span class="tl-chip ${TL_CHIP_CLASE[m.puedeSeguir] || 'tl-chip--nocons'}">${esc(m.puedeSeguir)}</span>
+      <button type="button" class="tl-info" title="Ver notas y fuentes">i</button>
+    </div>
+  `;
+  row.querySelector('.tl-info').addEventListener('click', () => openMandato(m.orden));
+  return row;
+}
+
+function renderMandatos() {
+  const root = document.getElementById('tl');
+  if (!root) return;
+
+  const hoy = tlHoy();
+  const lista = MANDATOS.slice().sort((a, b) => a.orden - b.orden);
+  const visibles = tlState.expandido ? lista : lista.slice(0, TL_PREVIEW);
+
+  root.innerHTML = `
+    <div class="tl-head">
+      <div class="tl-title">Mandatos <em>presidenciales</em></div>
+      <div class="tl-today">hoy · ${esc(tlFechaLarga(hoy))}</div>
+    </div>
+    <div class="tl-list" id="tl-list"></div>
+    <div class="tl-legend">
+      <span><i class="tl-key tl-key--now"></i> hoy</span>
+      <span><i class="tl-key tl-key--conf"></i> elección confirmada</span>
+      <span><i class="tl-key tl-key--est"></i> elección estimada</span>
+      <span>barras normalizadas: cada mandato es su propio 100%</span>
+    </div>
+  `;
+
+  const list = root.querySelector('#tl-list');
+  visibles.forEach(m => list.appendChild(tlFila(m, hoy)));
+
+  if (lista.length > TL_PREVIEW) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'tl-more';
+    btn.textContent = tlState.expandido ? 'Ver menos' : `Ver los ${lista.length} países →`;
+    btn.addEventListener('click', () => {
+      tlState.expandido = !tlState.expandido;
+      renderMandatos();
+    });
+    root.appendChild(btn);
+  }
+}
+
+// Reusa el drawer existente: mismo nodo, mismo closeDrawer(), mismo Escape.
+// No escribe el hash a propósito — init() lo interpreta como id de ente.
+function openMandato(orden) {
+  const m = MANDATOS.find(x => x.orden === orden);
+  if (!m) return;
+
+  const hoy = tlHoy();
+  const c = tlCalcular(m, hoy);
+
+  document.getElementById('drawer-nombre').textContent = m.pais;
+
+  const poblacion = typeof m.poblacion === 'number'
+    ? m.poblacion.toLocaleString('es-AR')
+    : esc(m.poblacion || '—');
+
+  const mandatoTxt = c.sinFin
+    ? tlFechaLarga(c.inicio) + ' → sin fin declarado'
+    : tlFechaLarga(c.inicio) + ' → ' + tlFechaLarga(c.fin);
+
+  const eleccionTxt = c.eleccion
+    ? tlFechaElec(m.eleccion, c.eleccion)
+      + (m.eleccionConfirmada === 'SI' ? ' · confirmada' : ' · estimada')
+    : 'sin fecha';
+
+  const fuente = (url, label) => url
+    ? `<a class="drawer-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer"><span>↗</span><span>${esc(label)}</span></a>`
+    : '';
+
+  document.getElementById('drawer-body').innerHTML = `
+    <div class="drawer-sigla-row">
+      <span class="drawer-sigla">${esc(m.presidente)}</span>
+      <span class="drawer-tipo">${esc(m.estado)}</span>
+    </div>
+    <dl>
+      <div class="tl-dr-row"><dt>Mandato</dt><dd>${esc(mandatoTxt)}</dd></div>
+      <div class="tl-dr-row"><dt>Restante</dt><dd>${esc(c.restante)}</dd></div>
+      <div class="tl-dr-row"><dt>Próxima elección</dt><dd>${esc(eleccionTxt)}</dd></div>
+      <div class="tl-dr-row"><dt>Situación</dt><dd>${esc(m.puedeSeguir)}</dd></div>
+      <div class="tl-dr-row"><dt>Regla constitucional</dt><dd>${esc(m.reeleccion)}</dd></div>
+      <div class="tl-dr-row"><dt>Población</dt><dd>${poblacion}</dd></div>
+    </dl>
+    ${m.notas ? `<div class="tl-dr-notas">${esc(m.notas)}</div>` : ''}
+    <div class="tl-dr-fuentes">
+      ${fuente(m.fuenteMandato, 'Fuente · mandato')}
+      ${fuente(m.fuenteReeleccion, 'Fuente · reelección')}
+    </div>
+    <div class="tl-dr-verificado">Verificado: ${esc(m.verificado || '—')}</div>
+  `;
+
+  document.getElementById('drawer').classList.add('open');
+  document.getElementById('drawer-bg').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+renderMandatos();
 
 // ============ PASSWORD GATE ============
 (function(){
